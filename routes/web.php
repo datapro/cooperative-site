@@ -15,4 +15,9 @@ Route::get('/apply', [App\Http\Controllers\LoanController::class, 'apply'])->nam
 Route::get('/userlogin', [App\Http\Controllers\Auth\LoginController::class, 'userlogin'])->name('userlogin');
 Auth::routes();
 
+
+// Admin Dashboard
+Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dash'])->name('admin');
+Auth::routes();
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -51,31 +51,50 @@
                     <div class="tabs-content">
                         <div class="tab active-tab fadeInUp animated" data-wow-delay="200ms" id="login" style="display: block;">
                             <span class="login-page__tab-title">sign in your account</span>
-                            <form class="login-page__form">
+                            <form class="login-page__form" method="POST" action="{{ route('login') }}">
+                                @csrf
                                 <div class="login-page__form__input-box">
-                                    <input type="email" placeholder="Your Email">
+                                    <input type="email" placeholder="Your Email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                     <span class="login-page__form__icon">
                                         <i class="icon-mail-2"></i>
                                     </span><!-- /.login-page__form__icon -->
+                                    @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div><!-- /.login-page__form__input-box -->
+
                                 <div class="login-page__form__input-box">
-                                    <input type="password" placeholder="Password" class="login-page__password">
+                                    <input type="password" placeholder="Password" class="login-page__password" name="password" required autocomplete="current-password">
                                     <span class="login-page__form__icon">
                                         <i class="icon-padlock"></i>
                                     </span><!-- /.login-page__form__icon -->
                                     <i class="toggle-password pass-field-icon fa fa-fw fa-eye-slash"></i>
+                                    @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div><!-- /.login-page__form__input-box -->
+
                                 <div class="login-page__form__input-box login-page__form__input-box--bottom">
                                     <div class="login-page__form__checked-box">
-                                        <input type="checkbox" name="remember-policy" id="remember-policy">
+                                        <input type="checkbox" name="remember-policy" id="remember-policy" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                         <label for="remember-policy"><span></span>remember me</label>
                                     </div>
-                                    <a href="index.html" class="login-page__form__forgot">forgot password?</a>
+                                    @if (Route::has('password.request'))
+                                    <a class="login-page__form__forgot" href="{{ route('password.request') }}">
+                                        {{ __('Forgot Your Password?') }}
+                                    </a>
+                                    @endif
                                     <!-- /.login-page__form__forgot -->
                                 </div><!-- /.login-page__form__input-box -->
                                 <div class="login-page__form__input-box login-page__form__input-box--button">
-                                    <button type="submit" class="easilon-btn login-page__form__btn"><span>log
-                                            in</span></button>
+                                    <button type="submit" class="easilon-btn login-page__form__btn">
+                                        <span>login</span>
+
+                                    </button>
                                 </div><!-- /.login-page__form__button -->
                             </form><!-- /.login-page__form -->
                             <div class="login-page__signin">
@@ -93,32 +112,69 @@
 
                         <div class="tab fadeInUp animated" data-wow-delay="200ms" id="register" style="display: none;">
                             <span class="login-page__tab-title">sign up your account</span>
-                            <form class="login-page__form">
+                            <form class="login-page__form" action="{{ route('register') }}" method="POST">
+                                @csrf
                                 <div class="login-page__form__input-box">
-                                    <input type="email" placeholder="Your Email">
+                                    <input type="text" placeholder="Name" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                    <span class="login-page__form__icon">
+                                    </span><!-- /.login-page__form__icon -->
+
+                                    @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div><!-- /.login-page__form__input-box -->
+
+                                <div class="login-page__form__input-box">
+                                    <input type="email" placeholder="Your Email" name="email" value="{{ old('email') }}" required autocomplete="email">
                                     <span class="login-page__form__icon">
                                         <i class="icon-mail-2"></i>
                                     </span><!-- /.login-page__form__icon -->
+
+                                    @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+
                                 </div><!-- /.login-page__form__input-box -->
+
                                 <div class="login-page__form__input-box">
-                                    <input type="password" placeholder="Password" class="login-page__password">
+                                    <input type="password" placeholder="Password" class="login-page__password" name="password" required autocomplete="new-password">
+                                    <span class="login-page__form__icon">
+                                        <i class="icon-padlock"></i>
+                                    </span><!-- /.login-page__form__icon -->
+                                    <i class="toggle-password pass-field-icon fa fa-fw fa-eye-slash"></i>
+
+                                    @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div><!-- /.login-page__form__input-box -->
+
+                                <div class="login-page__form__input-box">
+                                    <input type="password" placeholder="Confirme Password" class="login-page__password" name="password_confirmation" required autocomplete="new-password">
                                     <span class="login-page__form__icon">
                                         <i class="icon-padlock"></i>
                                     </span><!-- /.login-page__form__icon -->
                                     <i class="toggle-password pass-field-icon fa fa-fw fa-eye-slash"></i>
                                 </div><!-- /.login-page__form__input-box -->
-                                <div class="login-page__form__input-box login-page__form__input-box--bottom">
+
+                                {{-- <div class="login-page__form__input-box login-page__form__input-box--bottom">
                                     <div class="login-page__form__checked-box">
                                         <input type="checkbox" name="accept-policy" id="accept-policy">
                                         <label for="accept-policy"><span></span>I accept company privacy policy.</label>
                                     </div>
-                                </div><!-- /.login-page__form__input-box -->
+                                </div> --}}
+                                <!-- /.login-page__form__input-box -->
                                 <div class="login-page__form__input-box login-page__form__input-box--button">
                                     <button type="submit" class="easilon-btn login-page__form__btn"><span>Register</span></button>
                                 </div><!-- /.login-page__form__button -->
                             </form><!-- /.login-page__form -->
                             <div class="login-page__signin">
-                                <h4 class="login-page__signin__title">Already have an account? <a href="#">Sign In</a>
+                                <h4 class="login-page__signin__title">Already have an account? <a href="{{route('userlogin')}}">Sign In</a>
                                 </h4><!-- /.login-page__signin__title -->
                                 <span class="login-page__signin__text">or sign in with</span>
                                 <!-- /.login-page__signin__text -->

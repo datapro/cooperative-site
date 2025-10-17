@@ -18,7 +18,7 @@
                 <div class="topbar__right">
                     <ul class="list-unstyled topbar__pages">
                         <li><a href="{{route('userlogin')}}">log in</a></li>
-                        <li><a href="{{route('about')}}">career</a></li>
+                        <li><a href="#">career</a></li>
                         {{-- <li><a href="{{route('/about')}}">media</a></li> --}}
                         {{-- <li><a href="faq.html">Faq’s</a></li> --}}
                     </ul><!-- /.topbar__pages -->
@@ -50,7 +50,8 @@
             <div class="main-header__inner">
                 <div class="main-header__logo logo-retina">
                     <a href="index.html">
-                        <img src="{{asset('assets/images/logonh.png')}}" alt="Corporative Site" width="400">
+                        <img src="{{asset('assets/images/logonew.jpeg')}}" alt="Corporative Site" width="150px">
+                        <h3 style="display:inline-block;">Co-Operative Society</h3>
                     </a>
                 </div><!-- /.main-header__logo -->
                 <div class="main-header__right">
@@ -175,7 +176,7 @@
 
 
         <li>
-            <a href="{{route('about')}}">About Us</a>
+            <a href="#">About Us</a>
         </li>
         {{-- <li class="dropdown">
           <a href="#">Our Services</a>
@@ -267,7 +268,7 @@
           </ul>
       </li>--}}
         <li>
-            <a href="{{route('contact.send')}}">Contact Us</a>
+            <a href="#">Contact Us</a>
         </li>
         </ul>
         </nav><!-- /.main-header__nav -->

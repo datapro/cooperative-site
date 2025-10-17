@@ -3,9 +3,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Coporative || Society || </title>
     <!-- favicons Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('assets/images/logonh.png')}}" />
-    <link rel="icon" type="image/png')}}}}" sizes="32x32" href="{{asset('assets/images/logonh.png')}}" />
-    <link rel="icon" type="image/png')}}}}" sizes="16x16" href="{{asset('assets/images/logonh.png')}}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('assets/images/logonew.png')}}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('assets/images/logonew.png')}}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/logonew.png')}}" />
     <link rel="manifest" href="{{asset('assets/images/favicons/site.webmanifest')}}" />
     <meta name="description" content="Corporate Co-operative Society Site." />
 
@@ -28,6 +28,9 @@
     <link rel="stylesheet" href="{{asset('assets/vendors/owl-carousel/css/owl.carousel.min.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendors/owl-carousel/css/owl.theme.default.min.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendors/slick/slick.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/css/userstyle.css')}}" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
 
     <!-- template styles -->
     <link rel="stylesheet" href="{{asset('assets/css/easilon.css')}}" />

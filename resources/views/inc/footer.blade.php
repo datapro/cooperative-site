@@ -7,9 +7,10 @@
                 <div class="col-xl-4 col-lg-6 wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="00ms">
                     <div class="footer-widget footer-widget--about">
                         <a href="index.html" class="footer-widget__logo">
-                            <img src="{{asset('assets/images/logonh.png')}}" width="300" alt="footer logo">
+                            <img src="{{asset('assets/images/logonew.jpeg')}}" alt="Corporative Site" width="100px" style="border-radius:100px;">
                         </a>
-                        <p class="footer-widget__about-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p><!-- /.footer-widget__about-text -->
+                        <p class="footer-widget__about-text">Promote mutual financial growth by encouraging members to save
+                            regularly and access affordable credit facilities.</p><!-- /.footer-widget__about-text -->
                         <form action="#" data-url="MAILCHIMP_FORM_URL" class="footer-widget__newsletter mc-form">
                             <input type="text" name="EMAIL" placeholder="Enter Email">
                             <button type="submit">
@@ -24,38 +25,40 @@
                     <div class="footer-widget footer-widget--links footer-widget--links-one">
                         <h2 class="footer-widget__title">Explore</h2><!-- /.footer-widget__title -->
                         <ul class="list-unstyled footer-widget__links">
-                            <li><a href="about.html">About Us</a></li>
-                            <li><a href="services.html">Our Services</a></li>
+                            <li><a href="#">About Us</a></li>
+                            {{-- <li><a href="services.html">Our Services</a></li>
                             <li><a href="team.html">Meet the Team</a></li>
-                            <li><a href="blog-grid-right.html">Recent News</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="blog-grid-right.html">Recent News</a></li> --}}
+                            <li><a href="#">Contact</a></li>
                         </ul><!-- /.list-unstyled footer-widget__links -->
                     </div><!-- /.footer-widget -->
                 </div><!-- /.col-xl-2 col-lg-3 col-md-3 col-sm-6 -->
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="200ms">
                     <div class="footer-widget footer-widget--links footer-widget--links-two">
                         <h2 class="footer-widget__title">Loan Services</h2><!-- /.footer-widget__title -->
-                        <ul class="list-unstyled footer-widget__links">
+                        {{-- <ul class="list-unstyled footer-widget__links">
                             <li><a href="service-d-bike-loan.html">bike loan</a></li>
                             <li><a href="service-d-home-loan.html">home loan</a></li>
                             <li><a href="service-d-study-loan.html">abroad study loan</a></li>
                             <li><a href="service-d-business-loan.html">business loan</a></li>
                             <li><a href="service-d-personal-loan.html">personal loan</a></li>
-                        </ul><!-- /.list-unstyled footer-widget__links -->
+                        </ul> --}}
+                        <!-- /.list-unstyled footer-widget__links -->
                     </div><!-- /.footer-widget -->
-                </div><!-- /.col-xl-3 col-lg-3 col-md-4 col-sm-6 -->
+                </div>
+                <!-- /.col-xl-3 col-lg-3 col-md-4 col-sm-6 -->
                 <div class="col-xl-3 col-lg-6 col-md-5 wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="300ms">
                     <div class="footer-widget footer-widget--contact">
                         <h2 class="footer-widget__title">Get inTouch</h2><!-- /.footer-widget__title -->
                         <ul class="list-unstyled footer-widget__info">
-                            <li><a href="https://www.google.com/maps">85 Ketch Harbour Road Bensal PA 19020</a></li>
+                            <li><a href="https://www.google.com/maps"> No 5 Babatola Street, Ikeja, Lagos</a></li>
                             <li>
                                 <span class="footer-widget__info__icon"><i class="icon-paper-plane"></i></span>
-                                <a href="mailto:needhelp@company.com">needhelp@company.com</a>
+                                <a href="mailto:datapro2014@gmail.com">datapro2014@gmail.com</a>
                             </li>
                             <li>
                                 <span class="footer-widget__info__icon"><i class="icon-telephone"></i></span>
-                                <a href="tel:+9156980036420">+91 5698 0036 420</a>
+                                <a href="tel:+9156980036420">+2347032446095</a>
                             </li>
                         </ul><!-- /.list-unstyled -->
                     </div><!-- /.footer-widget -->

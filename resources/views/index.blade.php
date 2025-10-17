@@ -15,7 +15,7 @@
                 }'>
            <div class="item">
                <div class="main-slider-one__item">
-                   <div class="main-slider-one__bg" style="background-image: url(assets/images/backgrounds/main-slider-bg-1-1.jpg);">
+                   <div class="main-slider-one__bg" style="background-image: url(assets/images/backgrounds/slide1.jpg);">
                    </div><!-- /.main-slider-one__bg -->
                    <div class="main-slider-one__container container">
                        <div class="row gutter-y-60 align-items-center">
@@ -57,7 +57,7 @@
                                        </div><!-- /.main-slider-one__button__inner -->
                                        <div class="main-slider-one__button__inner">
                                            <div class="main-slider-one__button main-slider-one__button--2">
-                                               <a href="apply-loan.html" class="easilon-btn easilon-btn--border">
+                                               <a href="{{route('apply')}}" class="easilon-btn easilon-btn--border">
                                                    <span>get started</span>
                                                    <span class="easilon-btn__icon">
                                                        <i class="icon-double-right-arrow"></i>
@@ -76,7 +76,7 @@
            </div><!-- /.item -->
            <div class="item">
                <div class="main-slider-one__item">
-                   <div class="main-slider-one__bg" style="background-image: url(assets/images/backgrounds/main-slider-bg-1-2.jpg);">
+                   <div class="main-slider-one__bg" style="background-image: url(assets/images/backgrounds/slide3.jpg);">
                    </div><!-- /.main-slider-one__bg -->
                    <div class="main-slider-one__container container">
                        <div class="row gutter-y-60 align-items-center">
@@ -119,7 +119,7 @@
                                        </div><!-- /.main-slider-one__button__inner -->
                                        <div class="main-slider-one__button__inner">
                                            <div class="main-slider-one__button main-slider-one__button--2">
-                                               <a href="apply-loan.html" class="easilon-btn easilon-btn--border">
+                                               <a href="{{route('apply')}}" class="easilon-btn easilon-btn--border">
                                                    <span>get started</span>
                                                    <span class="easilon-btn__icon">
                                                        <i class="icon-double-right-arrow"></i>
@@ -138,7 +138,7 @@
            </div><!-- /.item -->
            <div class="item">
                <div class="main-slider-one__item">
-                   <div class="main-slider-one__bg" style="background-image: url(assets/images/backgrounds/main-slider-bg-1-3.jpg);">
+                   <div class="main-slider-one__bg" style="background-image: url(assets/images/backgrounds/slide2.jpg);">
                    </div><!-- /.main-slider-one__bg -->
                    <div class="main-slider-one__container container">
                        <div class="row gutter-y-60 align-items-center">
@@ -180,7 +180,7 @@
                                        </div><!-- /.main-slider-one__button__inner -->
                                        <div class="main-slider-one__button__inner">
                                            <div class="main-slider-one__button main-slider-one__button--2">
-                                               <a href="apply-loan.html" class="easilon-btn easilon-btn--border">
+                                               <a href="{{route('apply')}}" class="easilon-btn easilon-btn--border">
                                                    <span>get started</span>
                                                    <span class="easilon-btn__icon">
                                                        <i class="icon-double-right-arrow"></i>
@@ -202,12 +202,12 @@
            <div class="main-slider-one__form-wrapper__inner">
                <div class="container">
                    <div class="main-slider-one__form">
-                       <form action="#" id="loan-calculator-01" data-min-month="1" data-max-month="12" data-min-count="1000" data-max-count="50000" data-default-count="20000" data-default-month="4" data-month-label="Months" data-currency-symbol="$" data-count-steps="100" data-form-direction="ltr" data-interest-rate="15" class="loan-calculator-form wow fadeInUp" data-wow-duration="1500ms">
+                       <form action="{{route('apply')}}" id="loan-calculator-01" data-min-month="1" data-max-month="12" data-min-count="1000" data-max-count="50000" data-default-count="20000" data-default-month="4" data-month-label="Months" data-currency-symbol="₦" data-count-steps="100" data-form-direction="ltr" data-interest-rate="15" class="loan-calculator-form wow fadeInUp" data-wow-duration="1500ms" style="background:rgba(255,255,255,0.5)">
                            <h3 class="loan-calculator-form__title">How Much Do You Need?</h3>
                            <div class="loan-calculator-form__content">
                                <div class="input-box__top">
-                                   <span>$1000</span>
-                                   <span>$50000</span>
+                                   <span>₦1000</span>
+                                   <span>₦50000</span>
                                </div><!-- /.input-box__top -->
                                <div class="input-box">
                                    <div class="range-slider-count" id="loan-calculator-01-count"></div>
@@ -225,7 +225,7 @@
                                </div><!-- /.input-box -->
                                <p>
                                    <span>Pay Monthly</span>
-                                   <b>$<i class="loan-monthly-pay"></i></b>
+                                   <b>₦<i class="loan-monthly-pay"></i></b>
                                </p>
                                <p>
                                    <span>Term of Use</span>
@@ -233,7 +233,7 @@
                                </p>
                                <p>
                                    <span>Total Pay Back amount</span>
-                                   <b>$<i class="loan-total"></i></b>
+                                   <b>₦<i class="loan-total"></i></b>
                                </p>
                                <button type="submit" class="easilon-btn loan-calculator-form__btn">
                                    <span>Apply for loan</span>
@@ -247,7 +247,7 @@
        </div><!-- /.main-slider-one__form-wrapper -->
    </section><!-- /.main-slider-one -->
 
-   <section class="about-one section-space" id="about">
+   {{-- <section class="about-one section-space" id="about">
        <div class="about-one__bg" style="background-image: url(assets/images/shapes/about-bg-1-1.png);"></div><!-- /.about-one__bg -->
        <div class="container">
            <div class="row gutter-y-50">
@@ -326,21 +326,21 @@
                        </div><!-- /.about-one__list -->
                        <div class="about-one__button wow fadeInUp" data-wow-duration="1500ms">
                            <a href="{{route('about')}}" class="easilon-btn easilon-btn--border">
-                               <span>know about us</span>
-                               <span class="easilon-btn__icon">
-                                   <i class="icon-double-right-arrow"></i>
-                               </span>
-                           </a><!-- /.easilon-btn -->
-                       </div><!-- /.about-one__button -->
-                   </div><!-- /.about-one__content -->
-               </div><!-- /.col-lg-6 -->
-           </div><!-- /.row gutter-y-50 -->
-       </div><!-- /.container -->
-       <img src="assets/images/shapes/about-shape-1-2.png" alt="shape" class="about-one__shape">
-       <img src="assets/images/shapes/about-money-1-1.png" alt="shape" class="about-one__money">
-   </section><!-- /.about-one section-space -->
+   <span>know about us</span>
+   <span class="easilon-btn__icon">
+       <i class="icon-double-right-arrow"></i>
+   </span>
+   </a><!-- /.easilon-btn -->
+   </div><!-- /.about-one__button -->
+   </div><!-- /.about-one__content -->
+   </div><!-- /.col-lg-6 -->
+   </div><!-- /.row gutter-y-50 -->
+   </div><!-- /.container -->
+   <img src="assets/images/shapes/about-shape-1-2.png" alt="shape" class="about-one__shape">
+   <img src="assets/images/shapes/about-money-1-1.png" alt="shape" class="about-one__money">
+   </section> --}}
 
-   <section class="services-one section-space-top" id="services">
+   {{-- <section class="services-one section-space-top" id="services">
        <div class="services-one__bg" style="background-image: url(assets/images/shapes/services-bg-1-1.png);"></div>
        <!-- /.services-one__bg -->
        <div class="container">
@@ -497,9 +497,9 @@
            </div><!-- /.container -->
            <img src="assets/images/shapes/features-money-1-1.png" alt="money" class="features-one__money">
        </section><!-- /.features-one -->
-   </section><!-- /.services-one section-space-top -->
+   </section> --}}
 
-   <section class="work-process-one section-space">
+   {{-- <section class="work-process-one section-space">
        <div class="container">
            <div class="sec-title sec-title--center">
                <div class="sec-title__top">
@@ -590,9 +590,9 @@
                </div><!-- /.col-xl-3 col-lg-4 col-md-6 -->
            </div><!-- /.row -->
        </div><!-- /.container -->
-   </section><!-- /.work-process-one section-space -->
+   </section> --}}
 
-   <section class="company-transparency-one section-space">
+   {{-- <section class="company-transparency-one section-space">
        <div class="company-transparency-one__bg" style="background-image: url(assets/images/backgrounds/company-transparency-bg-1-1.jpg);"></div>
        <!-- /.company-transparency-one__bg -->
        <div class="container">
@@ -653,9 +653,9 @@
            </div><!-- /.row gutter-y-40 -->
        </div><!-- /.container -->
        <img src="assets/images/shapes/company-transparency-shape-1-1.png" alt="shape" class="company-transparency-one__shape">
-   </section><!-- /.company-transparency-one section-space -->
+   </section> --}}
 
-   <section class="team-one section-space" id="team">
+   {{-- <section class="team-one section-space" id="team">
        <div class="container">
            <div class="sec-title sec-title--center">
                <div class="sec-title__top">
@@ -987,9 +987,9 @@
                </div><!-- /.item -->
            </div><!-- /.team-one__carousel -->
        </div><!-- /.container -->
-   </section><!-- /.team-one section-space -->
+   </section> --}}
 
-   <section class="faq-one section-space">
+   {{-- <section class="faq-one section-space">
        <div class="container">
            <div class="row gutter-y-50 align-items-center">
                <div class="col-lg-6 wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="00ms">
@@ -1069,9 +1069,9 @@
            </div><!-- /.row gutter-y-50 -->
        </div><!-- /.container -->
        <img src="assets/images/shapes/faq-shape-1-1.png" alt="shape" class="faq-one__shape">
-   </section><!-- /.faq-one section-space -->
+   </section> --}}
 
-   <section class="testimonials-one section-space" id="testimonials">
+   {{-- <section class="testimonials-one section-space" id="testimonials">
        <div class="container">
            <div class="row gutter-y-50 align-items-center">
                <div class="col-xl-8 col-lg-7">
@@ -1272,7 +1272,7 @@
                                    </div><!-- /.funfact-one__item -->
                                    <div class="funfact-one__item testimonials-one__funfact__single wow fadeInUp" data-wow-duration="1500m">
                                        <h3 class="funfact-one__item__number count-box">
-                                           <span>$</span>
+                                           <span>₦</span>
                                            <span class="count-text" data-stop="95" data-speed="1500"></span>
                                            <span>k</span>
                                        </h3>
@@ -1288,9 +1288,9 @@
                </div><!-- /.col-xl-4 col-lg-5 -->
            </div><!-- /.row gutter-y-50 -->
        </div><!-- /.container -->
-   </section><!-- /.testimonials-one section-space -->
+   </section> --}}
 
-   <section class="download-app-one" id="download-app">
+   {{-- <section class="download-app-one" id="download-app">
        <div class="download-app-one__bg" style="background-image: url(assets/images/shapes/download-app-bg-1-1.png);"></div><!-- /.download-app-one__bg -->
        <div class="container section-space">
            <div class="row gutter-y-50">
@@ -1355,9 +1355,9 @@
        </div><!-- /.container section-space -->
        <img src="assets/images/shapes/download-app-border-1-1.png" alt="border" class="download-app-one__border">
        <div class="download-app-one__shape"></div><!-- /.download-app-one__shape -->
-   </section><!-- /.download-app-one -->
+   </section> --}}
 
-   <section class="blog-one section-space-top" id="blog">
+   {{-- <section class="blog-one section-space-top" id="blog">
        <div class="container">
            <div class="blog-one__top">
                <div class="row gutter-y-50">
@@ -1505,9 +1505,9 @@
                </div><!-- /.col-md-6 col-lg-4 -->
            </div><!-- /.row -->
        </div><!-- /.container -->
-   </section><!-- /.blog-one section-space-top -->
+   </section> --}}
 
-   <div class="client-carousel @extraClassName">
+   {{-- <div class="client-carousel @extraClassName">
        <div class="container">
            <div class="client-carousel__one easilon-owl__carousel owl-theme owl-carousel" data-owl-options='{
                     "items": 5,
@@ -1563,7 +1563,7 @@
                </div><!-- /.owl-slide-item-->
            </div><!-- /.thm-owl__slider -->
        </div><!-- /.container -->
-   </div><!-- /.client-carousel -->
+   </div> --}}
 
    <section class="quick-loan-one">
        <div class="container">
@@ -1583,15 +1583,16 @@
                        </div><!-- /.sec-title__top -->
                        <h3 class="sec-title__title">Get a Business Loans Quickly</h3><!-- /.sec-title__title -->
                    </div><!-- /.sec-title -->
-                   <a href="apply-loan.html" class="easilon-btn easilon-btn--white">
-                       <span>Apply for loan</span>
-                       <span class="easilon-btn__icon">
-                           <i class="icon-double-right-arrow"></i>
-                       </span>
-                   </a><!-- /.easilon-btn -->
-                   <img src="assets/images/shapes/quick-loan-money-1-1.png" alt="money" class="quick-loan-one__money">
+                   {{-- <a href="{{route('apply')}}" class="easilon-btn easilon-btn--white">
+                   <span>Apply for loan</span>
+                   <span class="easilon-btn__icon">
+                       <i class="icon-double-right-arrow"></i>
+                   </span>
+                   </a> --}}
+                   <!-- /.easilon-btn -->
+                   <img src="assets/images/money.png" width="800px" alt="money" class="quick-loan-one__money">
                </div><!-- /.quick-loan-one__content -->
            </div><!-- /.quick-loan-one__inner -->
        </div><!-- /.container -->
-   </section><!-- /.quick-loan-one -->
+   </section>
    @endsection

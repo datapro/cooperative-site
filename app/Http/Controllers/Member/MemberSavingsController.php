@@ -58,9 +58,9 @@ public function storesaving(Request $request)
                  ->get();
         $total = $savings->sum('amount');
         // Get total loan borrowed
-        $totalBorrowed = Loan::where('user_id', $user->id)->sum('amount_borrowed');
+        // $totalBorrowed = Loan::where('user_id', $user->id)->sum('amount_borrowed');
 
-        return view('member.profile',compact('user','savings','total','totalBorrowed'));
+        return view('member.profile',compact('user','savings','total'));
     }
 
 
@@ -106,9 +106,9 @@ public function storesaving(Request $request)
 
     $total = $savings->sum('amount');
      // Get total loan borrowed
-    $totalBorrowed = Loan::where('user_id', $user->id)->sum('amount_borrowed');
+    // $totalBorrowed = Loan::where('user_id', $user->id)->sum('amount_borrowed');
 
-        return view('member.profile',compact('user','total','savings','totalBorrowed'))->with('success', 'Member updated successfully!');
+        return view('member.profile',compact('user','total','savings'))->with('success', 'Member updated successfully!');
  }
 
 

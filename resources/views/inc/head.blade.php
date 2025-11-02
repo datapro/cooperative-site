@@ -28,13 +28,29 @@
     <link rel="stylesheet" href="{{asset('assets/vendors/owl-carousel/css/owl.carousel.min.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendors/owl-carousel/css/owl.theme.default.min.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendors/slick/slick.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/userstyle.css')}}" />
-
+    <link rel="stylesheet" href="{{asset('assets/css/userstyle.css')}}"/>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
 
     <!-- template styles -->
     <link rel="stylesheet" href="{{asset('assets/css/easilon.css')}}" />
 
-
+    <style>
+        .table-container {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 
 </head>

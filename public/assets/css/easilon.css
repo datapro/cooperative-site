@@ -54,7 +54,7 @@
   --easilon-font: "Montserrat", sans-serif;
   --easilon-text: #82828A;
   --easilon-text-rgb: 130, 130, 138;
-  --easilon-base: #00CDE5;
+  --easilon-base: #861405;
   --easilon-base-rgb: 0, 205, 229;
   --easilon-gray: #A0A0C0;
   --easilon-gray-rgb: 160, 160, 192;
@@ -599,14 +599,14 @@ h6 {
   background-color: var(--easilon-base, #00CDE5);
 }
 .easilon-btn--white {
-  color: var(--easilon-base, #00CDE5);
-  background-color: var(--easilon-white, #ffffff);
+  color: var(--easilon-base,  #ffffff );
+  background-color: var(--easilon-white, #6d1505);
 }
 .easilon-btn--white::before, .easilon-btn--white::after {
   background-color: var(--easilon-base, #00CDE5);
 }
 .easilon-btn--white .easilon-btn__icon::after {
-  background-color: var(--easilon-base, #00CDE5);
+  background-color: var(--easilon-base,  #6d1505);
 }
 .easilon-btn--white:hover {
   color: var(--easilon-white, #ffffff);

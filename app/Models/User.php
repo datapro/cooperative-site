@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+   
+    
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -19,10 +21,30 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'occupation',
+        'address',
+        'membership_no',
+        'department',
+        'phone',
+        'status',
+        'passport',
         'email',
         'password',
     ];
 
+    public function savings()
+    {
+        return $this->hasMany(Saving::class);
+    }
+    public function loans()
+{
+    return $this->hasMany(Loan::class);
+}
+  // 🔹 Helper: get total approved savings balance
+    public function totalSavings()
+    {
+        return $this->savings()->where('status', 'approved')->sum('amount');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

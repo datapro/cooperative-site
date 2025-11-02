@@ -50,6 +50,12 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'department' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:500'],
+            'status' => ['required', 'string', 'max:100'],
+            'phone' => ['required', 'string', 'max:255'],
+            'occupation' => ['required', 'string', 'max:255'],
+             'passport' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'], // max 2MB
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -61,12 +67,24 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
+ protected function create(array $data)
+{
+    // Handle the image upload
+    $imageName = time() . '.' . $data['passport']->extension();
+    $data['passport']->move(public_path('images'), $imageName);
+
+    // Create the user
+    return User::create([
+        'name' => $data['name'],
+        'department' => $data['department'],
+        'address' => $data['address'],
+        'status' => $data['status'],
+        'phone' => $data['phone'],
+        'membership_no' => $data['membership_no'],
+        'occupation' => $data['occupation'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+        'passport' => $imageName,
+    ]);
+}
 }

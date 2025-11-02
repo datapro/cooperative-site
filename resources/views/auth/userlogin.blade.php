@@ -1,6 +1,5 @@
-@extends('layouts.main')
-@section('content')
-<section class="page-header">
+@include('inc.head')
+{{-- <section class="page-header">
     <div class="page-header__bg" style="background-image: url(assets/images/backgrounds/page-header-bg-1-1.jpg);"></div>
     <!-- /.page-header__bg -->
     <div class="container">
@@ -19,8 +18,7 @@
         <div class="page-header__border page-header__border--4"></div><!-- /.page-header__border -->
         <div class="page-header__border page-header__border--5"></div><!-- /.page-header__border -->
     </div><!-- /.page-header__border-box -->
-</section><!-- /.page-header -->
-
+</section><!-- /.page-header --> --}}
 
 <section class="login-page section-space">
     <div class="container">
@@ -28,7 +26,8 @@
             <div class="col-xl-6 wow fadeInLeft" data-wow-duration="1500ms">
                 <div class="login-page__image">
                     <div class="login-page__image__inner">
-                        <img src="assets/images/resources/login-1-1.jpg" alt="login">
+                        <h1 style="font-weight: bold;text-align:center;">NASU CO-OPERATIVE FUOYE CHAPTER</h1>
+                        <img src="assets/images/nasulogo.jpeg" alt="login" style="border-radius:50px;">
                     </div><!-- /.login-page__image__inner -->
                 </div><!-- /.login-page__image -->
             </div><!-- /.col-xl-6 -->
@@ -112,46 +111,62 @@
 
                         <div class="tab fadeInUp animated" data-wow-delay="200ms" id="register" style="display: none;">
                             <span class="login-page__tab-title">sign up your account</span>
-                            <form class="login-page__form" action="{{ route('register') }}" method="POST">
+                            <form class="login-page__form" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
+                                @include('flash.messages')
                                 <div class="login-page__form__input-box">
-                                    <input type="text" placeholder="Name" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                    <input type="text" placeholder="Name" name="name" >
                                     <span class="login-page__form__icon">
                                     </span><!-- /.login-page__form__icon -->
-
-                                    @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                </div><!-- /.login-page__form__input-box -->
+                                <div class="login-page__form__input-box">
+                                    <input type="text" placeholder="Occupation" name="occupation" >
+                                    <span class="login-page__form__icon">
+                                    </span><!-- /.login-page__form__icon -->
+                                </div><!-- /.login-page__form__input-box -->
+                                <div class="login-page__form__input-box">
+                                    <input type="text" placeholder="Contact number here" name="phone">
+                                    <span class="login-page__form__icon">
+                                    </span><!-- /.login-page__form__icon -->
+                                </div><!-- /.login-page__form__input-box -->
+                                <div class="login-page__form__input-box">
+                                    <input type="text" placeholder="Department" name="department">
+                                    <span class="login-page__form__icon">
+                                    </span><!-- /.login-page__form__icon -->
+                                </div><!-- /.login-page__form__input-box -->
+                                <div class="login-page__form__input-box">
+                                    <textarea  placeholder="Address Here:" cols="60" rows="3" name="address"></textarea>
+                                    </span><!-- /.login-page__form__icon -->
+                                </div><!-- /.login-page__form__input-box -->
+                                <div class="login-page__form__input-box">
+                                    <input type="text" placeholder="Membership Number | Staff ID" name="membership_no">
+                                    <span class="login-page__form__icon">
+                                    </span><!-- /.login-page__form__icon -->
+                                </div><!-- /.login-page__form__input-box -->
+                                <div class="login-page__form__input-box">
+                                   <select  id="" name="status" >
+                                    <option value="active">Active</option>
+                                    {{-- <option value="Inactive">In-Active</option> --}}
+                                   </select>
+                                    <!-- /.login-page__form__icon -->
                                 </div><!-- /.login-page__form__input-box -->
 
                                 <div class="login-page__form__input-box">
-                                    <input type="email" placeholder="Your Email" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                    <input type="email" placeholder="Email" name="email">
                                     <span class="login-page__form__icon">
                                         <i class="icon-mail-2"></i>
                                     </span><!-- /.login-page__form__icon -->
 
-                                    @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-
                                 </div><!-- /.login-page__form__input-box -->
 
                                 <div class="login-page__form__input-box">
-                                    <input type="password" placeholder="Password" class="login-page__password" name="password" required autocomplete="new-password">
+                                    <input type="password" placeholder="Password" class="login-page__password" name="password">
                                     <span class="login-page__form__icon">
                                         <i class="icon-padlock"></i>
                                     </span><!-- /.login-page__form__icon -->
                                     <i class="toggle-password pass-field-icon fa fa-fw fa-eye-slash"></i>
 
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+
                                 </div><!-- /.login-page__form__input-box -->
 
                                 <div class="login-page__form__input-box">
@@ -162,12 +177,14 @@
                                     <i class="toggle-password pass-field-icon fa fa-fw fa-eye-slash"></i>
                                 </div><!-- /.login-page__form__input-box -->
 
-                                {{-- <div class="login-page__form__input-box login-page__form__input-box--bottom">
+                                <div class="login-page__form__input-box login-page__form__input-box--bottom">
                                     <div class="login-page__form__checked-box">
-                                        <input type="checkbox" name="accept-policy" id="accept-policy">
-                                        <label for="accept-policy"><span></span>I accept company privacy policy.</label>
+                                        <label for="accept-policy"><span></span>Please upload a passport(optional)</label>
+                                        <input type="file" name="passport" id="accept-policy">
                                     </div>
-                                </div> --}}
+                                </div>
+
+
                                 <!-- /.login-page__form__input-box -->
                                 <div class="login-page__form__input-box login-page__form__input-box--button">
                                     <button type="submit" class="easilon-btn login-page__form__btn"><span>Register</span></button>
@@ -199,4 +216,29 @@
         </div><!-- /.row -->
     </div><!-- /.container -->
 </section><!-- /.login-page section-space -->
-@endsection
+
+
+<script src="{{asset('assets/vendors/jquery/jquery-3.7.0.min.js')}}"></script>
+<script src="{{asset('assets/vendors/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('assets/vendors/bootstrap-select/bootstrap-select.min.js')}}"></script>
+<script src="{{asset('assets/vendors/jarallax/jarallax.min.js')}}"></script>
+<script src="{{asset('assets/vendors/jquery-ui/jquery-ui.js')}}"></script>
+<script src="{{asset('assets/vendors/jquery-ajaxchimp/jquery.ajaxchimp.min.js')}}"></script>
+<script src="{{asset('assets/vendors/jquery-appear/jquery.appear.min.js')}}"></script>
+<script src="{{asset('assets/vendors/jquery-circle-progress/jquery.circle-progress.min.js')}}"></script>
+<script src="{{asset('assets/vendors/jquery-magnific-popup/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('assets/vendors/jquery-validate/jquery.validate.min.js')}}"></script>
+<script src="{{asset('assets/vendors/nouislider/nouislider.min.js')}}"></script>
+<script src="{{asset('assets/vendors/tiny-slider/tiny-slider.js')}}"></script>
+<script src="{{asset('assets/vendors/wnumb/wNumb.min.js')}}"></script>
+<script src="{{asset('assets/vendors/owl-carousel/js/owl.carousel.min.js')}}"></script>
+<script src="{{asset('assets/vendors/slick/slick.min.js')}}"></script>
+<script src="{{asset('assets/vendors/wow/wow.js')}}"></script>
+<script src="{{asset('assets/vendors/imagesloaded/imagesloaded.min.js')}}"></script>
+<script src="{{asset('assets/vendors/isotope/isotope.js')}}"></script>
+<script src="{{asset('assets/vendors/countdown/countdown.min.js')}}"></script>
+<script src="{{asset('assets/vendors/jquery-circleType/jquery.circleType.js')}}"></script>
+<script src="{{asset('assets/vendors/jquery-lettering/jquery.lettering.min.js')}}"></script>
+<!-- template js -->
+<script src="{{asset('assets/js/easilon.js')}}"></script>
+

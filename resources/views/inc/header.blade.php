@@ -50,7 +50,7 @@
             <div class="main-header__inner">
                 <div class="main-header__logo logo-retina">
                     <a href="index.html">
-                        <img src="{{asset('assets/images/logonew.jpeg')}}" alt="Corporative Site" width="150px">
+                        <img src="{{asset('assets/images/logonew.jpeg')}}" alt="Corperative Site" width="150px">
                         <h3 style="display:inline-block;">Co-Operative Society</h3>
                     </a>
                 </div><!-- /.main-header__logo -->

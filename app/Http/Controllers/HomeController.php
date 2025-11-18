@@ -27,12 +27,26 @@ class HomeController extends Controller
     public function index()
     {
   
+            {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please log in to make a loan payment.');
+        }
+        
+        $user = Auth::user();
         $user_id = auth()->id();
+
         $savings = Saving::where('user_id', $user_id)
                 ->latest()  // same as orderBy('created_at', 'desc')
                 ->get();
-        $total = $savings->sum('amount');
+        
+                
+        $totalSavings = Saving::where('user_id', $user->id)
+        ->where('status', 'approved')
+        ->where('is_applied', true)
+        ->sum('amount');
 
-        return view('home',compact('savings','total'));
+        return view('home',compact('savings','totalSavings'));
     }
+}
+
 }

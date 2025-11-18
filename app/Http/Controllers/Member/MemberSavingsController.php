@@ -18,7 +18,6 @@ public function storesaving(Request $request)
 {
     $request->validate([
         'amount' => ['required', 'string', 'max:255'],
-        // 'date' => ['required', 'string', 'max:255'],
         'remark' => ['nullable|string|max:255'],
 
     ]);
@@ -28,25 +27,44 @@ public function storesaving(Request $request)
     }
 
     $user = Auth::user();
-    Saving::create([
-            'user_id' => $user->id,
+    $saving = new Saving([
+            'user_id' => auth()->id(),
             'amount' => $request->amount,
             'remark' => $request->remark ?? 'Pending deposit',
             'status' => 'pending',
-            'date' => now(),
         ]);
+
+         // Calculate user's total savings so far
+        $total = Saving::where('user_id', $request->user_id)
+        ->where('status', 'approved')
+        ->sum('amount');
+
+    $saving->total_savings = $total + $request->amount;
+    $saving->save();
 
     return redirect()->back()->with('success', 'Your saving is pending admin approval.');
 }
 
 
     public function  contribution(){
-         $user_id = auth()->id();
+         if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please log in to make a loan payment.');
+        }
+        
+        $user = Auth::user();
+        $user_id = auth()->id();
+
         $savings = Saving::where('user_id', $user_id)
-                 ->latest()  // same as orderBy('created_at', 'desc')
-                 ->get();
-        $total = $savings->sum('amount');
-        return view('member.contribution',compact('savings','total'));
+                ->latest()  // same as orderBy('created_at', 'desc')
+                ->get();
+        
+                
+        $totalSavings = Saving::where('user_id', $user->id)
+        ->where('status', 'approved')
+        ->where('is_applied', true)
+        ->sum('amount');
+
+        return view('member.contribution',compact('savings','totalSavings'));
     }
 
     public function profile()
@@ -126,20 +144,12 @@ public function storesaving(Request $request)
             ->latest()
             ->get();
 
-    //     // Compute total savings
-    //     $total = $savings->sum('amount');
-
-    //     // Get total loan borrowed
-    //     $totalBorrowed = Loan::where('user_id', $user->id)->sum('amount_borrowed');
-
-    //     //  Get last loan record (optional)
-    //     $latestLoan = Loan::where('user_id', $user->id)->latest()->first();
-
-    //     $latestLoanAmount = $latestLoan ? $latestLoan->amount_borrowed : 0;
-    //     $deductedFromSavings = $latestLoan ? $latestLoan->deducted_from_savings : 0;
-
-        // Pass data to Blade
-        return view('member.savings',compact('savings'));
+        $totalSavings = Saving::where('user_id', $user->id)
+        ->where('status', 'approved')
+        ->where('is_applied', true)
+        ->sum('amount');
+        
+        return view('member.savings',compact('savings','totalSavings'));
  
     }
 

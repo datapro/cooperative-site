@@ -24,7 +24,13 @@
     <div class="links">
         <a href="{{route('membercontributions')}}">
         <img src="{{asset('assets/images/membericons/business.png')}}" />
-        Contibution
+        Savings Report
+    </a>
+    </div>
+    <div class="links">
+        <a href="{{route('commodity_request')}}">
+        <img src="{{asset('assets/images/membericons/business.png')}}" />
+        Commodity Request
     </a>
     </div>
     <div class="links">
@@ -35,6 +41,7 @@
 
     </div>
 </aside>
+
 
 
 <div class="max-w-2xl mx-auto bg-white shadow rounded p-6" style="text-align:center;">
@@ -55,44 +62,21 @@
                 </div>
 
         <div class="col-auto">
-                    <label for="amount" class="form-label">Guarrantor Form</label>
-                    <input type="file" name="g_form" id="amount" class="form-group">
+                    <label  class="form-label">Guarrantor Form</label>
+                    <input type="file" name="g_form" id="amount" class="form-group" required>
                 </div>
         </div>
 
-            <button type="submit" class="btn btn-success">
+            <button type="submit" class="btn btn-danger">
                 {{ 'Submit Loan Request' }}
             </button>
 
     </form>
-    {{-- <p>Total Savings: ₦{{ number_format($totalSavings, 2) }}</p> --}}
-    {{-- @if($loan && $loan->status == 'active')
-    <form action="{{ route('memberloan') }}" method="POST"
-    style="border-weight:1px;border-style:solid; border-color:pink;padding:16px;" >
-    @csrf
-    
-    <div class="col-auto">
-        <label for="amount" class="form-label">Amount Payable: (₦)</label>
-        <input type="number" name="repayment_amount" step="0.01"  id="amount" class="form-control" placeholder="Enter amount payable">
-    </div>
-    <button type="submit" class="btn btn-success">
-        {{ 'Pay Out-standing Loan' }}
-    </button>
-</form>
-@endif --}}
-</div>
-@php
-    $borrowed = $loan->amount_borrowed ?? 0;
-    $repaid = $loan->amount_repaid ?? 0;
-    $outstanding = $borrowed - $repaid;
-@endphp
-<p style="font-size:50px; text-align:center;">
-    Outstanding Loan: ₦{{ number_format($outstanding, 2) }}
-</p>
 
-    
+</div>
+
 <div style="text-align: center;margin-left:100px;">
-    <table class="table" style=" text-align:center;">
+    <table class="table table-dark table-hover" style=" text-align:center;">
         <thead>
             <tr>
                 <th>Membership ID</th>
@@ -111,13 +95,14 @@
                 <td>{{$loan->requested_amount}}</td>
                 {{-- <td>{{$loan->deducted_from_savings}}</td>
                 <td>{{$loan->amount_borrowed}}</td> --}}
-                <td> @if($loan->status == 'cleared')
-                    <span class="badge bg-success">Cleared</span>
-                @elseif($loan->status == 'active')
-                    <span class="badge bg-warning text-dark">Active</span>
-                @else
-                    <span class="badge bg-secondary">Pending</span>
-                @endif
+                <td> 
+                     @if($loan->status === 'approved')
+                        <span class="badge bg-success">Approved</span>
+                    @elseif($loan->status === 'rejected')
+                        <span class="badge bg-danger">Rejected</span>
+                    @else
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    @endif
                 </td>
                     <td> @if ($loan->g_form)
                         <a href="{{ asset('forms/' . $loan->g_form) }}" 

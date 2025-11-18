@@ -3,26 +3,19 @@
 @section('content')
 
 <main style="text-align: center">
-
 <div  style="display: flex; justify-content:center; column-gap:20px;align-items:center;">
-    <h2 class="text-2xl font-bold text-gray-800" style="color: white;">
-        💰 Savings & Contributions
-    </h2>
-    {{-- <a href="#"
-       class="btn btn-primary">
-       + Add Contribution
-    </a> --}}
-    <a href="{{route('admin')}}"
-       class="btn btn-warning btn-sm">
-         +Dashboard
-    </a>
-</div>
-<div style="display: flex;justify-content:center; column-gap:20px;" >
+     <img src="{{ asset('images/' . auth()->user()->passport) }}" width="200px"
+                 class="w-32 h-32 rounded-full border border-gray-300 object-cover" 
+                 alt="Profile Photo" style="width: 100px; border-radius:50px;"/>
+
+        <h2 class="text-2xl font-bold text-gray-800" style="color: rgb(163, 11, 11);">
+                     💰 Reports
+            </h2>
+                    <a href="{{route('admin')}}" class="btn btn-secondary"> + Dashboard</a>
+       
 {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3" data-bs-whatever="@getbootstrap">Approved Savings</button> --}}
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Filter Member</button>
-<button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Savings Calc</button>
-<button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal4">Transaction Receipt</button>
-<!-- Button trigger modal -->
+
 </div>
 
 {{-- modal form 1 --}}
@@ -65,6 +58,7 @@
                     <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>pending</option>
                     <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>active</option>
                     <option value="cleared" {{ request('status') == 'cleared' ? 'selected' : '' }}>cleared</option>
+                    <option value="none" {{ request('status') == 'none' ? 'selected' : '' }}>none</option>
                   </select>
         </div>
         <div>
@@ -163,11 +157,6 @@
         <td><a href="" class="btn btn-success btn-sm" style="font-size: 10px;">Approve Savings</a></td>
       </tr>
     </table>
-    {{-- <ul class="list-group">
-        <li class="list-group-item">Projected Total Savings: <strong></strong></li>
-        <li class="list-group-item text-danger">Total Deductions: </li>
-        <li class="list-group-item bg-light">Net Savings: <strong></strong></li>
-    </ul> --}}
 </div>
 {{-- @endif --}}
       {{-- </div> --}}
@@ -177,137 +166,78 @@
     </div>
   </div>
 </div>
-{{-- end modal 2 --}}
-
-<!-- Modal3 -->
-{{-- <div class="modal fade" id="exampleModal3"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Search with Status</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="">
-            <label for="">Status</label>
-            <select name="" id="">
-                <option value="option1">option1</option>
-            </select>
-            <button class="btn btn-primary btn-sm">+ Find</button>
-        </form>
-        <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-  </tbody>
-</table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div> --}}
-{{-- end modal 3 --}}
-
-{{-- Modal 4 --}}
-<div class="modal fade" id="exampleModal4"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Transaction Receipt</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-</div>
-</div>
-{{-- end modal 4 --}}
-
-
-<hr class="alert alert-warning">
-{{-- Filter Section --}}
 
 </main>
 {{-- Table --}}
 <div class="table-container">
-    <table class="table">
-        <thead class="" >
+    <table class="table table-dark table-hover">
+        <thead class="">
             <tr>
+                <th class="">MemberShip ID</th>
                 <th class="">Full Name</th>
                 <th class="">Email</th>
                 <th class="">Total Savings(₦)</th>
+                <th class="">Savings Status</th>
                 <th class="">Total Loan Requested (₦)</th>
                 <th class="">Total Loan Paid (₦)</th>
-                <th class="">Outstanding Loan (₦)</th>
-                <th class="">Savings Status</th>
+                <th class="">Outstanding Loan (₦ Previous)</th>
+                <th class="">Loan Status (latest loan)</th>
                 <th class="">Date</th>
                 <th class="">Recorded By</th>
-                {{-- <th class=" text-center">Actions</th> --}}
+                <th class="">Action</th>
+                <th class="">Transaction Receipt</th>
             </tr>
         </thead>
-        <tbody>
-            {{-- @forelse ($savings as $saving) --}}
-            @foreach ($members as $index => $member)
-                   @php
-                        $totalSavings = $member->savings->sum('amount');
-                        $totalLoans = $member->loans->sum('requested_amount');
+              <tbody>
+      @foreach ($members as $index => $member)
+         @php
+        $status = $member->savings->last()?->status ?? 'No savings'; 
+    @endphp 
 
-                        $totalpaid = $member->loans->sum('amount_repaid');
-                        $outstandingLoan = $totalLoans - $totalpaid;
-                        // $outstandingLoan = $totalLoanBorrowed - $totalRepaid;
+    <tr>
+        <td>{{ $member->membership_no }}</td>
+        <td>{{ $member->name }}</td>
+        <td>{{ $member->email }}</td>
+        <td>₦{{ number_format($member->totalApprovedSavings, 2) }}</td>
+        <td>{{$status}}</td>
+        <td>₦{{ number_format($member->totalLoans, 2) }}</td>
+        <td>₦{{ number_format($member->totalRepaid, 2) }}</td>
+        <td>₦{{ number_format($member->total_outstanding, 2) }}</td>
 
-                        // Determine status
-                        $status = $member->savings->last()?->status ?? 'No savings';
-                    @endphp
+        <td>{{ optional($member->loans->last())->status ?? 'No Loan' }}</td>
+      
+        <td>{{ $member->created_at->format('d M, Y') }}</td>
+        <td>{{ $member->name }}</td>
 
-                <tr class="">
-                    <td class="">{{ $member->name }}</td>
-                     <td>{{ $member->email }}</td>
-                        <td>₦{{ number_format($totalSavings, 2) }}</td>
-                        <td>₦{{ number_format($totalLoans, 2) }}</td>
-                        <td>₦{{ number_format($totalpaid, 2) }}</td>
-                        <td>₦{{ number_format($outstandingLoan, 2) }}</td>
-                        <td>
-                            @if($status === 'active')
-                                <span class="btn btn-success">active</span>
-                            @elseif($status === 'cleared')
-                                <span class="btn btn-primary">cleared</span>
-                            @elseif($status === 'pending')
-                                <span class="btn btn-danger">pending</span>
-                            @else
-                                <span class="btn btn-warning">none</span>
-                            @endif
-                        </td>
+        <td>
+            <a href="{{ route('admin.repay-loan', $member->id) }}" 
+              style="font-size: 14px;font-weight:bold;" class="btn btn-secondary btn-sm">
+                Loan Repayment
+            </a>
+        </td>
+        <td>
+            <a href="{{ route('admin.receipt', $member->id) }}" 
+              style="font-size: 14px;font-weight:bold;" class="btn btn-primary btn-lg">
+                Receipt
+            </a>
+        </td>
 
-                    <td class="">{{ $member->created_at->format('d M, Y') }}</td>
-                    <td class="">{{ $member->name }}</td>
-                    <td class="">
-                        {{-- <a href="" class="alert alert-success">View</a> --}}
-                            <a href="{{route('admin.repay-loan', $member->id)}}"  class="btn btn-primary btn-sm">
-                              Pay for Loan</a>
-                        
-                    </td>
-                </tr>
-                @endforeach
-        </tbody>
+        {{-- Action Buttons for each saving --}}
+       {{-- <td>
+            @foreach($member->savings as $saving)
+                <form action="{{ route('admin.contributionsavings.approve', $saving->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" class="btn btn-sm {{ $saving->status === 'pending' ? 'btn-success' : 'btn-warning' }}">
+                        {{ $saving->status === 'pending' ? 'approve' : 'pending' }}
+                    </button>
+                </form>
+            @endforeach
+        </td>  --}}
+    </tr>
+@endforeach
+</tbody>
+
 </table>
 
 

@@ -9,7 +9,7 @@
     </a>
     </div>
     <div class="links">
-        <a href="{{route('member.savings')}}">
+        <a href="{{route('member.showsavings')}}">
         <img src="{{asset('assets/images/membericons/savings.png')}}" />
         Savings
     </a>
@@ -23,7 +23,13 @@
     <div class="links">
         <a href="{{route('membercontributions')}}">
         <img src="{{asset('assets/images/membericons/business.png')}}" />
-        Contibution
+        Savings Report
+    </a>
+    </div>
+    <div class="links">
+        <a href="{{route('commodity_request')}}">
+        <img src="{{asset('assets/images/membericons/business.png')}}" />
+        Commodity Request
     </a>
     </div>
     <div class="links">
@@ -35,7 +41,7 @@
     </div>
 </aside>
 
-<div class="max-w-2xl mx-auto bg-white shadow rounded p-6" style="text-align:center;">
+<div class="max-w-2xl mx-auto bg-white" style="text-align:center;">
     <div style="display: flex;justify-content:center; column-gap:50px; margin-buttom:20px; align-items:center;">
 
         <h2 class="text-2xl font-bold mb-4" style="display: inline-block">Add to My Savings</h2>
@@ -44,33 +50,10 @@
     <form action="{{route('member.showsavings')}}" method="POST">
         @include('flash.messages')
         @csrf
-        {{-- Amount --}}
-        {{-- <div class="col-auto">
-            <label for="" class="form-label">MemberShip ID</label>
-            <input type="text" name="user_id" id="amount" class="form-group" placeholder="Enter Membership code">
-        </div>
-         --}}
         <div class="col-auto">
             <label for="amount" class="form-label">Amount (₦)</label>
             <input type="number" name="amount" id="amount" class="form-group" placeholder="Enter amount to save" required>
         </div>
-
-        {{-- <div class="col-auto">
-            <label for="amount" class="form-label">Total Savings (₦)</label>
-            <input type="number" name="total_savings" id="amount" class="form-group" >
-        </div> --}}
-
-        {{-- Date --}}
-        {{-- <div class="col-auto">
-            <label for="date" class="form-label">Date</label>
-            <input type="date" name="date" id="date" value="" class="form-group">
-        </div> --}}
-
-        {{-- Description --}}
-        {{-- <div class="col-auto">
-            <label for="remarks" style="vertical-align: top;" class="form-label">Description</label>
-            <textarea name="remark" id="remarks" rows="3" cols="50" class="form-group" placeholder="E.g. Monthly savings or special deposit">{{ old('remarks', $record->remarks ?? '') }}</textarea>
-        </div> --}}
         <button type="submit" class="btn btn-primary">
             {{ 'Save Now' }}
         </button>
@@ -80,12 +63,11 @@
 
 <div style="display:flex;justify-content:center; column-gap:20px;">
 <div class="col-md-4">
-            <div class="card text-white bg-warning mb-3 shadow-sm">
-                <div class="btn btn-success">
-                    <div style="display: flex; justify-content:center;column-gap:20px;
-                    background: rgb(4, 77, 4); color:white;">
-                    <h3 style="color: white;">Total Savings After Approval
-                        {{-- <br> ₦{{ number_format($total, 2) }} --}}
+            <div class="cards text-white bg-warning mb-3 shadow-sm">
+                <div class="btn btn-danger">
+                    <div style="display: flex; justify-content:center;column-gap:20px;">
+                    <h5 style="color: white;">Total Savings After Approval
+                        <br> ₦{{ number_format($totalSavings, 2) }}
                     </h3> 
                     </div>
                 </div>
@@ -98,7 +80,7 @@
 
     <div style="text-align: center;margin-left:100px;">
         
-    <table class="table" style="text-align:center;">
+    <table class="table table-dark table-hover" style="text-align:center;">
         <thead>
             <tr>
                 <th>Membership ID</th>
@@ -117,12 +99,8 @@
                 <td>{{$saving->user->name}}</td>
                 <td>{{ \Carbon\Carbon::parse($saving->date)->format('d M, Y') }}</td>
                 <td>{{ $saving->remark }}</td>
-                <td> @if($saving->status == 'active')
-                    <span class="badge bg-warning text-dark">Active</span>
-                @else
-                    <span class="badge bg-secondary">Pending</span>
-                @endif</td>
-                <td class="{{ $saving->amount < 0 ? 'text-danger' : 'text-success' }}">
+                <td> {{$saving->status}}</td>
+                <td class="{{ $saving->amount < 0 ? 'btn-danger' : 'btn-success' }}">
                 ₦{{ number_format($saving->amount, 2) }}</td>
                 {{-- <td>₦{{ number_format($total, 2) }}</td> --}}
             </tr>

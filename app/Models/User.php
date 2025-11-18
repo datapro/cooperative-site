@@ -32,10 +32,12 @@ class User extends Authenticatable
         'password',
     ];
 
+    
     public function savings()
     {
         return $this->hasMany(Saving::class);
     }
+
     public function loans()
 {
     return $this->hasMany(Loan::class);
@@ -45,6 +47,15 @@ class User extends Authenticatable
     {
         return $this->savings()->where('status', 'approved')->sum('amount');
     }
+
+    public function transactions()
+{
+    return $this->hasMany(Transaction::class, 'user_id');
+}
+
+public function commodityRequests() {
+    return $this->hasMany(Commodity_request::class);
+}
     /**
      * The attributes that should be hidden for serialization.
      *

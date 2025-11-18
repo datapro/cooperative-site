@@ -50,6 +50,11 @@
                     <div class="tabs-content">
                         <div class="tab active-tab fadeInUp animated" data-wow-delay="200ms" id="login" style="display: block;">
                             <span class="login-page__tab-title">sign in your account</span>
+                             <div class="login-page__form__input-box">
+                                    @include('flash.messages')
+                                    <span class="login-page__form__icon">
+                                    </span><!-- /.login-page__form__icon -->
+                                </div><!-- /.login-page__form__input-box -->
                             <form class="login-page__form" method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="login-page__form__input-box">
@@ -97,9 +102,9 @@
                                 </div><!-- /.login-page__form__button -->
                             </form><!-- /.login-page__form -->
                             <div class="login-page__signin">
-                                <h4 class="login-page__signin__title">don’t have an account? <a href="#">register</a>
+                                {{-- <h4 class="login-page__signin__title">don’t have an account? <a href="#">register</a> --}}
                                 </h4><!-- /.login-page__signin__title -->
-                                <span class="login-page__signin__text">or sign in with</span>
+                                <span class="login-page__signin__text">sign in with</span>
                                 <!-- /.login-page__signin__text -->
                                 <div class="login-page__signin__buttons">
                                     <button type="button" class="login-page__signin__btn"><img src="assets/images/shapes/google.png" alt="google"></button>
@@ -113,7 +118,8 @@
                             <span class="login-page__tab-title">sign up your account</span>
                             <form class="login-page__form" action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                @include('flash.messages')
+                                
+                               
                                 <div class="login-page__form__input-box">
                                     <input type="text" placeholder="Name" name="name" >
                                     <span class="login-page__form__icon">

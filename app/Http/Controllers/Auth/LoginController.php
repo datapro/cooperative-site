@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+  use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -26,7 +27,25 @@ class LoginController extends Controller
      * @var string
      */
     
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/home'; 
+  
+
+public function login(Request $request)
+{
+    $credentials = $request->only('email', 'password');
+
+    if (Auth::attempt($credentials)) {
+        // ✅ Redirect based on role
+        $user = Auth::user();
+        if ($user->is_admin) {
+            return redirect()->intended('/admin');
+        }
+        return redirect()->intended('/home');
+    }
+
+    // ❌ If login fails, redirect back with flash message
+    return back()->with('error', 'Invalid email or password. Please try again.');
+}
   
 
     /**

@@ -7,12 +7,42 @@
 
 <div class="flex justify-between items-center mb-6" style="display: flex; gap:20px; justify-content:center;
  align-items:center;">
-    <h2 class="text-2xl font-bold text-gray-800" style="color: white;">👥 Member Management</h2>
+    <h2 class="text-2xl font-bold text-gray-800" style="color: rgb(163, 11, 11);">👥 Member Management</h2>
     <a href="{{route('admin')}}"
-       class="btn btn-secondary btn-sm">
+       class="btn btn-secondary">
         Dashboard
     </a>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Upload multiple members with excel or csv</button>
 </div>
+<section>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Bulk Upload</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+    <form action="{{ route('admin.members.import') }}" method="POST" enctype="multipart/form-data" class="mb-4">
+    @csrf
+    <div class="form-group">
+        <label for="file" style="color: rgb(163, 11, 11);">Create Multiple Member by Uploading Excel File (.xlsx, .xls, .csv)</label><br>
+        <input type="file" name="file" style="color: white; id="file" class="form-group" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm">Import Members</button>
+</form>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
 @include('flash.messages')
 {{-- Search Bar --}}
 <div class="mb-4">
@@ -39,25 +69,10 @@
     </form>
     @endif
 </div>
-<div>
-    <form action="{{ route('admin.members.import') }}" method="POST" enctype="multipart/form-data" class="mb-4">
-    @csrf
-    <div class="form-group">
-        <label for="file" style="color: white;">Create Multiple Member by Uploading Excel File (.xlsx, .xls, .csv)</label><br>
-        <input type="file" name="file" style="color: white; id="file" class="form-group" required>
-    </div>
-    <button type="submit" class="btn btn-primary btn-sm">Import Members</button>
-</form>
-</div>
+
 {{-- Members Table --}}
 <div class="">
-       {{-- <form action="" style="display: inline-block"
-                              method="POST" class="inline-block">
-                            @csrf
-                           
-                            <button type="submit" class="btn btn-success" >Register Bulk Memeber with Excel Sheet</button>
-                        </form> --}}
-    <table class="table" width="100%">
+    <table class="table table-dark table-hover" width="100%">
         <thead class="">
             <tr>
                 <th class="">Full Name</th>
@@ -65,16 +80,15 @@
                 <th class="">Phone</th>
                 <th class="">Membership ID</th>
                <th class="">Total Savings (₦)</th>
-                <th class="">Total Loan Borrowed (₦)</th>
-                <th class="">Outstanding Loan (₦)</th>
-                <th class="">Loan Status</th>
-                <th class="">Status</th>
-                <th class="">Change Status</th>
-                {{-- <th class=""></th> --}}
+                <th class="">Member State</th>
                 <th class="">View</th>
+                <th class="">Change State</th>
                 <th class="">Remove Member</th>
+                <th class="">is_Admin</th>
+                <th class="">Assign Admin</th>
             </tr>
         </thead>
+
            @foreach ($members as $index => $member)
                    @php
                         $totalSavings = $member->savings->sum('amount');
@@ -91,21 +105,14 @@
                     <td class="">{{$member->phone}} </td>
                     <td class="">{{$member->membership_no}} </td>
                      <td>₦{{ number_format($totalSavings, 2) }}</td>
-                        <td>₦{{ number_format($totalLoanBorrowed, 2) }}</td>
+                        {{-- <td>₦{{ number_format($totalLoanBorrowed, 2) }}</td>
                         <td>₦{{ number_format($outstandingLoan, 2) }}</td>
-
+                   
                         <td>
-                            @if($status === 'active')
-                                <span class="badge bg-warning text-dark">Active</span>
-                            @elseif($status === 'cleared')
-                                <span class="badge bg-success">Cleared</span>
-                            @elseif($status === 'Pending Request')
-                                <span class="badge bg-info text-dark">Pending</span>
-                            @else
-                                <span class="badge bg-secondary">None</span>
-                            @endif
-                        </td>
-                    <td class="" style="display: flex">
+                            <p>{{ $status }}</p>
+         
+                        </td> --}}
+                    <td>
                                         
                     @if($member->status === 'active')
                         <span class="badge bg-success">Active</span>
@@ -113,24 +120,21 @@
                         <span class="badge bg-danger">Inactive</span>
                     @endif
                     </td>
-                    <td>
-                         <form action="{{ route('admin.members.toggleStatus', $member->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            @if($member->status === 'active')
-                                <button type="submit" class="btn btn-sm btn-warning">Deactivate</button>
-                            @else
-                                <button type="submit" class="btn btn-sm btn-success">Activate</button>
-                            @endif
-                        </form>
-                    </td>
                     <td class="">
-                        <a href="{{ route('admin.editmember', $member->id) }}" class="alert alert-success">Edit</a>
+                        <a href="{{ route('admin.editmember', $member->id) }}" class="btn btn-secondary">Edit</a>
                     </td>
-                    {{-- <td>
-                        <a href="#" class="alert alert-primary">View</a>
-                    </td> --}}
                     <td>
+                    <form action="{{ route('admin.members.toggleStatus', $member->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    @if($member->status === 'active')
+                        <button type="submit" class="btn btn-sm btn-warning">Deactivate</button>
+                    @else
+                        <button type="submit" class="btn btn-sm btn-success">Activate</button>
+                    @endif
+                </form>
+            </td>
+                 <td>
                         <form action="{{ route('admin.members.destroy', $member->id) }}"
                               method="POST" class="inline-block"
                               onsubmit="return confirm('Are you sure you want to delete this member?')">
@@ -138,6 +142,19 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" >Delete</button>
                         </form>
+                    </td>
+                     <td class="border px-2">{{ $member->is_admin ? 'Yes' : 'No' }}</td>
+                    <td class="border px-2">
+                        @if (auth()->id() !== $member->id)
+                        <form method="POST" action="{{ route('admin.toggleAdmin', $member) }}">
+                            @csrf
+                            <button type="submit" class="btn btn-success btn-sm">
+                                {{ $member->is_admin ? 'Revoke Admin' : 'Make Admin' }}
+                            </button>
+                        </form>
+                        @else
+                        <em>(you)</em>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

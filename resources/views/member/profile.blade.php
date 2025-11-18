@@ -1,10 +1,10 @@
 @include('inc.head')
 @extends('layouts.app')
 @section('content')
-<div class="mb-6 flex justify-between items-center" style="justify-content:center; display:flex; gap:50px;">
+<div class="mb-6 flex justify-between items-center" style="justify-content:center; display:flex; gap:50px;align-items:center;">
     <h2 class="text-2xl font-bold text-gray-800" style="color: white;">👤 Member Profile</h2>
 
-    <a href="{{route('home')}}" class="btn btn-secondary btn-lg">
+    <a href="{{route('home')}}" class="btn btn-secondary">
         ← Back to Members
     </a>
 </div>
@@ -23,7 +23,7 @@
                 {{$user->status}}
             </p>
             <div>
-                    <a href="{{route('member.memberedit' , $user->id )}}" class="btn btn-success btn-lg">Update User</a>
+                    <a href="{{route('member.memberedit' , $user->id )}}" class="btn btn-danger">Update User</a>
                 </div>
         </div>
         {{-- Right: Member Info --}}
@@ -72,61 +72,12 @@
                 <p class="text-sm text-gray-500">Total Savings</p>
                 <p class="text-xl font-bold text-blue-700">₦{{ number_format($total, 2) }}</p>
             </div>
-
-            {{-- <div class="bg-green-50 p-4 rounded text-center shadow">
-                <p class="text-sm text-gray-500">Total Contributions</p>
-                <p class="text-xl font-bold text-green-700">₦{{ number_format($total, 2) }}</p>
-                
-            </div> --}}
-
-            <div class="bg-yellow-50 p-4 rounded text-center shadow">
-                <p class="text-sm text-gray-500">Loan Balance</p>
-                <p class="text-xl font-bold text-yellow-700">₦(loan balance)</p>
-            </div>
-
-            {{-- <div class="bg-purple-50 p-4 rounded text-center shadow">
-                <p class="text-sm text-gray-500">Total Boorwed Balances</p>
-                <p class="text-xl font-bold text-purple-700">₦{{ number_format($totalBorrowed, 2) }}</p>
-            </div> --}}
         </div>
     </div>
 
     {{-- Recent Transactions --}}
     <div class="mt-8">
         <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">📜 Recent Transactions</h3>
-
-     <div style="text-align: center;margin-left:100px;">
-    <table class="table" style="text-align:center;">
-        <thead>
-            <tr>
-                <th>Membership ID</th>
-                <th>Name</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Decription</th>
-            </tr>
-        </thead>
-        @foreach ($savings as $saving)
-        <tbody>
-            <tr>
-                <td>{{$saving->user->membership_no}}</td>
-                <td>{{$saving->user->name}}</td>
-                <td class="{{ $saving->amount < 0 ? 'text-danger' : 'text-success' }}">
-                ₦{{ number_format($saving->amount, 2) }}</td>
-                <td>@if($saving->status == 'active')
-                    <span class="badge bg-warning text-dark">Active</span>
-                @else
-                    <span class="badge bg-secondary">Pending</span>
-                @endif
-            </td>
-                <td>{{$saving->date}}</td>
-                <td>{{$saving->remark}}</td>
-            </tr>
-        </tbody>
-        @endforeach
-    </table>
-</div>
     </div>
 </div>
 

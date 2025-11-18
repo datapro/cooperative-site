@@ -14,8 +14,11 @@
                     </div>
                     @endif
 
-                    {{ __('Membership Per Excellent!') }}
-                    <marquee behavior="alternate" style="color:green;">
+                     <img src="{{ asset('images/' . auth()->user()->passport) }}" width="200px"
+                 class="w-32 h-32 rounded-full border border-gray-300 object-cover" 
+                 alt="Profile Photo" style="width: 100px; border-radius:50px;"/>
+                 {{ __('Membership Per Excellent!') }}
+                    <marquee behavior="alternate" style="color:rgb(87, 5, 25);">
                         Thank you for Joining Our Cooperative!, Your sure way to achievement
                     </marquee>
                   <div>@include('flash.messages')</div>  
@@ -35,7 +38,7 @@
         <a href="{{route('member.showsavings')}}">
         <img src="{{asset('assets/images/membericons/savings.png')}}" />
         Savings
-        </a>
+    </a>
     </div>
     <div class="links">
         <a href="{{route('memberloan')}}">
@@ -46,13 +49,21 @@
     <div class="links">
         <a href="{{route('membercontributions')}}">
         <img src="{{asset('assets/images/membericons/business.png')}}" />
-        Contibution</a>
+        Savings Report
+    </a>
+    </div>
+    <div class="links">
+        <a href="{{route('commodity_request')}}">
+        <img src="{{asset('assets/images/membericons/business.png')}}" />
+        Commodity Request
+    </a>
     </div>
     <div class="links">
         <a href="{{route('profile')}}">
         <img src="{{asset('assets/images/membericons/profile.png')}}" />
-        Profile
+       Profile
     </a>
+
     </div>
 </aside>
 <main style="text-align:center;">
@@ -67,53 +78,15 @@
             {{-- <p class="text-2xl font-bold text-green-700" >₦{{ number_format($total, 2) }}</p> --}}
         </div>
 
-        {{-- <div class="bg-white p-4 shadow rounded">
-            <h3 class="text-gray-500 text-sm">Loan Balance</h3>
-            <p class="text-2xl font-bold text-red-600">
-                Outstanding Loan: ₦{{ number_format($loan->amount_borrowed - $loan->amount_repaid, 2) }}
-            </p>
-        </div> --}}
-
-        {{-- <div   style="background: rgb(4, 77, 4);
-            color:white;justify-content:center;align-items:center;display:flex;flex-direction:column;">
-            <h3 class="text-gray-500 text-sm">Total Contributions</h3>
-            <p class="text-2xl font-bold text-blue-700">₦{{ number_format($total, 2) }}</p>
-        </div> --}}
     </div>
 
     {{-- Recent Transactions --}}
     <div class="bg-white p-6 shadow rounded" style="justify-content:center; align-items:center;">
-        <h3 class="text-lg font-semibold mb-4">Recent Transactions</h3>
-<div style="text-align: center;margin-left:100px;">
-    <table class="table" style="text-align:center;">
-        <thead>
-            <tr>
-                <th>Membership ID</th>
-                <th>Name</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Decription</th>
-            </tr>
-        </thead>
-        @foreach ($savings as $saving)
-        <tbody>
-            <tr>
-                <td>{{$saving->user->membership_no}}</td>
-                <td>{{$saving->user->name}}</td>
-                <td class="{{ $saving->amount < 0 ? 'text-danger' : 'text-success' }}">₦{{$saving->amount}}</td>
-                <td>@if($saving->status == 'active')
-                    <span class="badge bg-warning text-dark">Active</span>
-                @else
-                    <span class="badge bg-secondary">Pending</span>
-                @endif</td>
-                <td>{{$saving->date}}</td>
-                <td>{{$saving->remark}}</td>
-            </tr>
-        </tbody>
-        @endforeach
-    </table>
-</div>
+        <h3 class="text-lg font-semibold mb-4">Recent Transactions: <br>
+            ₦{{ number_format($totalSavings, 2) }}</h3>
+        <div style="text-align: center;margin-left:100px;">
+        
+        </div>
     </div>
 </main>
 

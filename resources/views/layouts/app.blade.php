@@ -16,14 +16,28 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
+
 <body>
-    <div id="app" style="background: rgba(2, 82, 2, 0.705);">
+    <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <div style="display: flex; column-gap:10px;align-items:center;" >
+                    @if (auth()->check() && auth()->user()->passport)
+                        <img src="{{ asset('images/' . auth()->user()->passport) }}" width="200px"
+                        class="w-32 h-32 rounded-full border border-gray-300 object-cover" 
+                        alt="Profile Photo" style="width: 100px; border-radius:50px;"/>
+                    @else
+                        <img src="{{ asset('assets/images/nasulogo.jpeg') }}" alt="Default Avatar" width="100px">
+                    @endif
+                   
+   
+                   <a class="navbar-brand" href="{{ url('/') }}">
+                       {{ config('app.name', 'Laravel') }}
+                   </a>
+
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 

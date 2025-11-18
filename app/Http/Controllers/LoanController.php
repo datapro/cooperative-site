@@ -22,7 +22,12 @@ public function memberloan(){
         $loans = Loan::where('user_id', $user_id)
                  ->latest()  // same as orderBy('created_at', 'desc')
                  ->get();
+        
         $user = Auth::user();
+        if (!$user) {
+            return back()->with('error', 'User not authenticated and logged out.');
+        }
+
         $loan = Loan::where('user_id', $user->id)
                 ->where('status', 'active')
                 ->first();

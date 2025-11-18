@@ -1,31 +1,27 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Saving extends Model
 {
     //
-       protected $fillable = [
+     use HasFactory;
+     protected $fillable = [
         'user_id',
         'amount',
-        'date',
-        'total_savings',
+        'status',
+        'approved_by',
+        'approved_at',
         'remark',
-        'type',
-       ];
+        'total_savings',
+    ];
 
-  public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    // Helper: compute total savings balance
-public function totalSavings()
+    // Relationships
+    public function user()
 {
-    return $this->savings()->sum('amount');
+    return $this->belongsTo(User::class, 'user_id');
 }
 }
-
-

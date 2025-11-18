@@ -1,7 +1,7 @@
 @include('inc.head')
 @extends('layouts.app')
 @section('content')
-<div class="container mt-4" style="color: white;">
+<div class="container mt-4" style="color: rgb(12, 11, 11);">
     <h4>Edit Member Information</h4>
 
     <form action="{{route('admin.member', $member->id)}}" method="POST">
@@ -24,7 +24,7 @@
 
     <div class="col-md-4">
         <label for="name" class="form-label">Password</label>
-        <input type="text" name="password"  value="{{ old('password', $member->password) }}" class="form-control" required>
+        <input type="text" name="password"  value="" class="form-control" required>
     </div>
 
     <div class="col-md-4">

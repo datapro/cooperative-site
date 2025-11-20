@@ -19,11 +19,17 @@
         {{-- head sectin  --}}
     <section style="display: grid;grid-template-columns:100px 1fr 100px;">
         <div>
-            <img src="{{asset('assets/images/nasulogo.jpeg')}}" width="50px" alt="">
+        @if (auth()->check() && auth()->user()->passport)
+                <img src="{{ asset('images/' . auth()->user()->passport) }}"
+                class="w-32 h-32 rounded-full border border-gray-300 object-cover" 
+                alt="Profile Photo" style="width: 50px"/>
+            @else
+                <img src="{{ asset('assets/images/nasulogo.jpeg') }}" alt="Default Avatar" width="100px">
+            @endif
         </div>
         <div style="text-align: center;font-weight:bold;">
             NASU FUOYE COOPERATIVE MULTIPURPOSE SOCIETY
-            <p style="text-align: center; font-weight:50px;">Transactin for Nvember 2025</p>
+            <p style="text-align: center; font-weight:50px;">Transactin for {{$user->created_at->format('F Y')}}</p>
         </div>
           <div>
             <img src="{{asset('assets/images/nasulogo.jpeg')}}" width="50px" alt="">
@@ -33,71 +39,71 @@
     grid-template-columns:100px  1fr;
      column-gap:10px;justify-content:center;
      background-color:rgb(200,100,50); color:white;">
-        <div>Name:</div>
-        <div>lorem ipsum dolor sit</div>
+        <div>Name</div>
+        <div>{{$user->name}}</div>
         <div>Email:</div>
-        <div>datapro2014@gmail.com</div>
+        <div>{{$user->email}}</div>
         <div>Staff No:</div>
-        <div>2228AD</div>
+        <div>{{$user->membership_no}}</div>
         <div>Ledger No:</div>
-        <div>23333223AD</div>
+        <div>{{$user->id}}</div>
         <div>Phone No:</div>
-        <div>07032446095</div>
+        <div>{{$user->phone}}</div>
     </section>
     <h6 style="margin-bottom: 0;color:rgb(200,100,50);">Savings</h6>
     <section style="display: grid;grid-template-columns:1fr 100px;columns-gap:10px;margin-top:0;">
         <div>Saving B/F</div>
-        <div>0.00</div>
+        <div>₦{{ number_format( $savingBF, 2) }}</div>
         <div>Add Savings During the Months</div>
-        <div>0.00</div>
+        <div>₦{{ number_format( $savingsThisMonth, 2) }}</div>
         <div>Total Savings</div>
-        <div>0.00</div>
+        <div>₦{{ number_format( $totalSavings, 2) }}</div>
     </section>
     <hr>
     <h6 style="margin-bottom: 0;color:rgb(200,100,50);">Loan Services</h6>
     <section style="display: grid;grid-template-columns:1fr 100px;columns-gap:10px;margin-top:0;">
         <div>Loan Principal Balance B/F</div>
-        <div>0.00</div>
+        <div>₦{{ number_format( $loanBF, 2) }}</div>
         <div>Add Loan Granted During the Month</div>
-        <div>0.00</div>
+        <div>₦{{ number_format( $loanGranted, 2) }}</div>
         <div>Less Loan principal Repayment</div>
-        <div>0.00</div>
+        <div>₦{{ number_format( $loanPrincipalRepayment, 2) }}</div>
         <div>Loan Repayment Balance C/F</div>
-        <div>0.00</div>
+        <div>₦{{ number_format( $loanRepaymentCF, 2) }}</div>
         <div>Loan Ledger Balance C/F</div>
-        <div>0.00</div>
+        <div>₦{{ number_format(  $loanLedgerCF, 2) }}</div>
         <div>Interest Charges on Loan</div>
-        <div>0.00</div>
+        <div>₦0.00</div>
     </section>
     <hr>
     <h6 style="margin-bottom: 0;color:rgb(200,100,50);">Commodity Sale Services</h6>
     <section style="display: grid;grid-template-columns:1fr 100px;columns-gap:10px;margin-top:0;">
         <div>Commodity sales Balance  B/F</div>
-        <div>0.00</div>
+        <div>₦{{ number_format(  $commodityBF, 2) }}</div>
         <div>Commodity Sales During the Month</div>
-        <div>0.00</div>
+        <div>₦{{ number_format( $commodityDuring, 2) }}</div>
         <div>Less Commodity Sales Repayment</div>
-        <div>0.00</div>
+        <div>₦{{ number_format(   $commodityRepayment, 2) }}</div>
         <div>Commodity Sales Balance C/F</div>
-        <div>0.00</div>
+        <div>₦{{ number_format(  $commodityCF, 2) }}</div>
     </section>
     <hr>
     <h6 style="margin-bottom: 0;color:rgb(200,100,50);">Summary of Deduction</h6>
     <section style="display: grid;grid-template-columns:1fr 100px;columns-gap:10px;margin-top:0;">
         <div>Savings</div>
-        <div>0.00</div>
+        <div>₦{{ number_format(  $totalSavings, 2) }}</div>
         <div>Principal Loan Recovery</div>
-        <div>0.00</div>
+        <div>₦{{ number_format(  $loanBF, 2) }}</div>
         <div>Interest Charge on Loan</div>
         <div>0.00</div>
         <div>Commodity Sales Repayment</div>
-        <div>0.00</div>
+        <div>₦{{ number_format(  $commodityRepayment, 2) }}</div>
         <div>Loan/Membership Incidental Charges</div>
         <div>0.00</div>
         <div>Extra Charges</div>
-        <div>0.00</div>
+        <div>₦{{ number_format( $extraCharges, 2) }}</div>
         <div style="font-weight: bold;">Total Deduction</div>
-        <div style="font-weight: bold;">0.00</div>
+        <div style="font-weight: bold;">₦{{ number_format( $totalDeduction, 2) }}</div>
     </section>
     <hr>
  </main>
@@ -106,7 +112,7 @@
 </div>
       <div class="modal-footer">
         <a href="" class="btn btn-primary">Send</a>
-        <button class="btn btn-success" onclick="window.print('#staticBackdrop')">Print</button>
+        <button class="btn btn-success" onclick="printModal('modalContent')">Print</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
@@ -219,5 +225,24 @@
     {{ $transactions->links() }}
 </div>
 
+
+
+
+<script>
+function printModal(staticBackdrop) {
+    // Get modal content
+    var printContents = document.getElementById('staticBackdrop').innerHTML;
+
+    // Open print window
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+
+    // Reload JS events
+    window.location.reload();
+}
+</script>
 
 @endsection

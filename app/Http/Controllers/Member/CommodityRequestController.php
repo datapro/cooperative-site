@@ -12,7 +12,7 @@ class CommodityRequestController extends Controller
           $user_id = auth()->id();
         $commodities = Commodity_request::where('user_id', $user_id)
                  ->latest()  // same as orderBy('created_at', 'desc')
-                 ->get();
+                 ->paginate(20);
         $user = Auth::user();
         if (!$user) {
             return back()->with('error', 'User not authenticated and logged out.');

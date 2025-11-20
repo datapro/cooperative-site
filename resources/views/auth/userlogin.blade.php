@@ -145,7 +145,7 @@
                                     </span><!-- /.login-page__form__icon -->
                                 </div><!-- /.login-page__form__input-box -->
                                 <div class="login-page__form__input-box">
-                                    <input type="text" placeholder="Membership Number | Staff ID" name="membership_no">
+                                    <input type="text" placeholder="Staff ID" name="membership_no">
                                     <span class="login-page__form__icon">
                                     </span><!-- /.login-page__form__icon -->
                                 </div><!-- /.login-page__form__input-box -->

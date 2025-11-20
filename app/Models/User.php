@@ -52,9 +52,13 @@ class User extends Authenticatable
 {
     return $this->hasMany(Transaction::class, 'user_id');
 }
+public function commodities()
+{
+    return $this->hasMany(\App\Models\Commodity::class, 'user_id');
+}
 
 public function commodityRequests() {
-    return $this->hasMany(Commodity_request::class);
+    return $this->hasMany(Commodity_request::class,'user_id');
 }
     /**
      * The attributes that should be hidden for serialization.

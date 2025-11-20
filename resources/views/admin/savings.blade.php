@@ -8,8 +8,21 @@
         Back
     </a>
 </div>
-<div class="table-container">
-    
+<div>
+         <form class="" action="{{ route('search.savings') }}" method="GET">
+                @csrf
+            <label class="block text-gray-700 text-sm font-semibold mb-1">Member Name</label>
+              <select name="query" class="form-group" required>
+              <option value="">-- Select Member --</option>
+              @foreach ($members as $member)
+                  <option name="query"  value="{{ $member->name }}">{{ $member->name }}</option>
+              @endforeach
+          </select>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="{{route('search.savings')}}" class="btn btn-secondary">Refresh</a>
+          </form><br>
+</div>
+<div class="table-container">   
     <table class="table">
     <thead>
         <tr>
@@ -43,6 +56,9 @@
         @endforeach
     </tbody>
     </table>
+    <div class="mt-4" style="display:flex; justify-content:center;"> 
+    {{ $members->links() }}
+ </div>
    @php
         $total_savings = $members->sum('totalApproved');
     @endphp

@@ -56,7 +56,7 @@ public function storesaving(Request $request)
 
         $savings = Saving::where('user_id', $user_id)
                 ->latest()  // same as orderBy('created_at', 'desc')
-                ->get();
+                ->paginate(20);
         
                 
         $totalSavings = Saving::where('user_id', $user->id)
@@ -142,7 +142,7 @@ public function storesaving(Request $request)
     //     // Get all savings records for the user (latest first)
         $savings = Saving::where('user_id', $user->id)
             ->latest()
-            ->get();
+            ->paginate(20);
 
         $totalSavings = Saving::where('user_id', $user->id)
         ->where('status', 'approved')

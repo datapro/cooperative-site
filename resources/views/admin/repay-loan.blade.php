@@ -125,6 +125,9 @@
     @endforeach
         </tbody>
     </table>
+       {{-- <div class="mt-4" style="display:flex; justify-content:center;"> 
+    {{ $member->links() }}
+ </div> --}}
         </div>
 <div>
     {{-- <table class="table table-striped mt-3">

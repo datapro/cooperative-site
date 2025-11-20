@@ -21,7 +21,7 @@ public function memberloan(){
     $user_id = auth()->id();
         $loans = Loan::where('user_id', $user_id)
                  ->latest()  // same as orderBy('created_at', 'desc')
-                 ->get();
+                 ->paginate(20);
         
         $user = Auth::user();
         if (!$user) {

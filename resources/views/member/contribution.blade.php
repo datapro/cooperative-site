@@ -73,6 +73,10 @@
          </tbody>
          @endforeach
      </table>
+     {{-- Pagination --}}
+<div class="mt-4" style="display:flex; justify-content:center;"> 
+    {{ $savings->links() }}
+ </div>
  <div>
  <label for="" style="font-weight: bold">Total Savings: </label>
  <input type="text" value="₦{{ number_format($totalSavings, 2) }}" disabled>

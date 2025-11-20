@@ -107,6 +107,10 @@
         </tbody>
         @endforeach
     </table>
+    {{-- Pagination --}}
+<div class="mt-4" style="display:flex; justify-content:center;"> 
+    {{ $savings->links() }}
+ </div>
 </div>
 </div>
 

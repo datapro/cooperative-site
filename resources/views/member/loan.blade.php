@@ -119,7 +119,10 @@
         @endforeach
     </table>
 </div>
-
+{{-- Pagination --}}
+<div class="mt-4" style="display:flex; justify-content:center;"> 
+    {{ $loans->links() }}
+ </div>
 </div>
 
 

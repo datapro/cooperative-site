@@ -162,9 +162,9 @@
 </div>
 
 {{-- Pagination --}}
-{{-- <div class="mt-4"> --}}
-    {{-- {{ $members->links() }} --}}
-{{-- </div> --}}
+<div class="mt-4" style="display:flex; justify-content:center;"> 
+    {{ $members->links() }}
+ </div>
 </main>
 
 @endsection

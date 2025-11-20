@@ -112,9 +112,11 @@
                 @endforeach
             </tbody>
         </table>
-
+        <div class="mt-4" style="display:flex; justify-content:center;"> 
+            {{ $commodities->links() }}
+         </div>
     </div>
-
+{{-- Pagination --}}
 </main>
 
 @endsection

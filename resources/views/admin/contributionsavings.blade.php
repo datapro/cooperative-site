@@ -222,18 +222,6 @@
             </a>
         </td>
 
-        {{-- Action Buttons for each saving --}}
-       {{-- <td>
-            @foreach($member->savings as $saving)
-                <form action="{{ route('admin.contributionsavings.approve', $saving->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('PUT')
-                    <button type="submit" class="btn btn-sm {{ $saving->status === 'pending' ? 'btn-success' : 'btn-warning' }}">
-                        {{ $saving->status === 'pending' ? 'approve' : 'pending' }}
-                    </button>
-                </form>
-            @endforeach
-        </td>  --}}
     </tr>
 @endforeach
 </tbody>
@@ -244,9 +232,9 @@
 </div>
 
 
-<div class="d-flex justify-content-center mt-3">
-    {{-- {{ $members->appends(request()->query())->links() }} --}}
-</div>
+<div class="mt-4" style="display:flex; justify-content:center;"> 
+    {{ $members->links() }}
+ </div>
 
 {{-- Pagination --}}
 

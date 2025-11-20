@@ -104,9 +104,9 @@
 
 
 {{-- Pagination --}}
-<div class="mt-4">
-    {{-- {{ $Comoditys->links() }} --}}
-</div>
+<div class="mt-4" style="display:flex; justify-content:center;"> 
+    {{ $users->links() }}
+ </div>
 
 
 @endsection

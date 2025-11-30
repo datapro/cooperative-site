@@ -14,7 +14,7 @@
                     <a href="{{route('admin')}}" class="btn btn-secondary"> + Dashboard</a>
        
 {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3" data-bs-whatever="@getbootstrap">Approved Savings</button> --}}
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Filter Member</button>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Search Member</button>
 
 </div>
 
@@ -34,7 +34,7 @@
        @else
     <form method="Get" action="{{route('contributionsavings')}}" 
     class="form-group gap-4" style="display: grid;grid-template-columns:100px 300px;gap:20px; 
-    justify-content:center;align-items:center;color:white;">
+    justify-content:center;align-items:center;color:black;">
     
         {{-- @method('Post') --}}
     <div>
@@ -51,26 +51,8 @@
             </select>
         </div>
 
-        <div>
-            <label class="block text-gray-700 text-sm font-semibold mb-1">Status</label><br>
-            <select name="status" class="form-group rounded p-2">
-                <option value="">...</option>
-                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>pending</option>
-                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>active</option>
-                    <option value="cleared" {{ request('status') == 'cleared' ? 'selected' : '' }}>cleared</option>
-                    <option value="none" {{ request('status') == 'none' ? 'selected' : '' }}>none</option>
-                  </select>
-        </div>
-        <div>
-            <label class="block text-gray-700 text-sm font-semibold mb-1">From Date</label>
-            <input type="date" name="created_at" value="{{ request('created_at') }}" class="form-group">
-        </div>
-        <div>
-            <label class="block text-gray-700 text-sm font-semibold mb-1">To Date</label><br>
-            <input type="date" name="updated_at" value="{{ request('updated_at') }}" class="form-group">
-        </div>
         <div class="md:col-span-4 flex justify-end mt-2" style="display: flex; gap:20px;">
-            <button type="submit" class="form-group btn btn-primary" style="padding-left:50px;padding-right:50px;">Filter</button>
+            <button type="submit" class="form-group btn btn-primary" style="padding-left:50px;padding-right:50px; margin-left:50px;">Search</button>
            
         </div>
     </form>

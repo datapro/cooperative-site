@@ -19,12 +19,14 @@ class MembersImport implements ToModel
     {
        return new User([
             'name' => $row[0],
-            'department' => $row[1],
-            'email' => $row[2],
-            'membership_no' => $row[3],
-            'phone' => $row[4] ?? null,
-            'status' => $row[5] ?? 'active',
-            'password' => Hash::make($row[6] ?? 'password123'), // default password
+            'ledger_no' => $row[1],
+            'membership_no' => $row[2],
+            'email' => $row[3],
+            'password' => Hash::make($row[4] ?? 'password123'), // default password
+            'savingsBF' => $row[5],
+            'loanBF' => $row[6] ?? null,
+            'commBF' => $row[7] ?? null,
+            'status' => $row[8] ?? 'active',
         ]);
     }
 }

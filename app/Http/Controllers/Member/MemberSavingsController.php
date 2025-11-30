@@ -46,26 +46,29 @@ public function storesaving(Request $request)
 }
 
 
-    public function  contribution(){
-         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Please log in to make a loan payment.');
-        }
-        
-        $user = Auth::user();
-        $user_id = auth()->id();
-
-        $savings = Saving::where('user_id', $user_id)
-                ->latest()  // same as orderBy('created_at', 'desc')
-                ->paginate(20);
-        
-                
-        $totalSavings = Saving::where('user_id', $user->id)
-        ->where('status', 'approved')
-        ->where('is_applied', true)
-        ->sum('amount');
-
-        return view('member.contribution',compact('savings','totalSavings'));
+   public function contribution()
+{
+    // Ensure user is logged in
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Please log in to make a loan payment.');
     }
+
+    $user = Auth::user();
+    $user_id = $user->id;
+
+    $savings = Saving::where('user_id', $user_id)
+                ->latest()
+                ->paginate(20);
+
+    $totalSavings = Saving::where('user_id', $user_id)
+                    ->where('status', 'approved')
+                    ->where('is_applied', true)
+                    ->sum('amount');
+
+    // Pass all variables correctly
+    return view('member.contribution', compact('savings', 'totalSavings', 'user'));
+}
+
 
     public function profile()
     {
@@ -149,7 +152,7 @@ public function storesaving(Request $request)
         ->where('is_applied', true)
         ->sum('amount');
         
-        return view('member.savings',compact('savings','totalSavings'));
+        return view('member.savings',compact('savings','totalSavings','user'));
  
     }
 

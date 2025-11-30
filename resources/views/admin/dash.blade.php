@@ -93,19 +93,14 @@
         Member Management</a>
     </div>
     <div class="links-m">
-        <a href="{{route('contributionsavings')}}">
-        <img src="{{asset('assets/images/membericons/account.png')}}" />
-        Savings & Contributions Management</a>
-    </div>
-    {{-- <div class="links-m">
-        <a href="{{route('loanManagement')}}">
-        <img src="{{asset('assets/images/membericons/loans.png')}}" />
-        Loan Management</a>
-    </div> --}}
-    <div class="links-m">
         <a href="{{route('comodity')}}">
         <img src="{{asset('assets/images/membericons/loans.png')}}" />
         Comodity Management</a>
+    </div>
+    <div class="links-m">
+        <a href="{{route('admin.consolidation')}}">
+        <img src="{{asset('assets/images/membericons/loans.png')}}" />
+        Consolidation</a>
     </div>
 </aside>
 

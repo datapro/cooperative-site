@@ -43,7 +43,7 @@ protected function calculateLoanRepayment($user, Request $request)
     foreach ($user->loans as $loan) {
 
         // Accept interest rate from form input — fallback to DB or default
-        $interestRate = $request->input('interest_rate', $loan->interest_rate ?? 10);
+        $interestRate = $request->input('interest_rate');
 
         // Accept amount paid by user for this cycle
         $amountPaid = $request->input('amount_paid', 0);
@@ -75,65 +75,122 @@ protected function calculateLoanRepayment($user, Request $request)
 
 public function finalizeCalculations($userId, Request $request)
 {
-    $user = User::with(['loans' => function ($q) {
-        $q->where('status', 'approved');
-    }])->findOrFail($userId);
+    $request->validate([
+        'processing_charge' => 'nullable|numeric',
+        'amount_paid' => 'required|numeric|min:0',
+    ]);
 
-    // Approved savings not yet used
+    $user = User::with(['loans' => fn($q) => $q->whereIn('status', ['approved', 'complete'])])
+        ->findOrFail($userId);
+
+    if ($user->loans->isEmpty()) {
+        return back()->with('error', 'No loans found for this user.');
+    }
+
+    // Total approved savings not yet applied
     $approvedSavings = Saving::where('user_id', $user->id)
         ->where('status', 'approved')
         ->where('is_applied', false)
         ->sum('amount');
 
-    // Loan repayment using form input (interest + amount paid)
-    $loanRepayment = $this->calculateLoanRepayment($user, $request);
+    $amountPaid = $request->input('amount_paid');
+    $paymentMade = false;
+    $excessTotal = 0;
 
-    // Determine difference
-    $netToAdd = $approvedSavings - $loanRepayment;
+    foreach ($user->loans as $loan) {
 
-    if ($netToAdd > 0) {
-
-        // Save bonus to savings
-        $user->total_savings += $netToAdd;
-        $user->save();
-
-        Transaction::create([
-            'user_id' => $user->id,
-            'type' => 'Savings Credit',
-            'loan_type' => $request->input('loan_type'),
-            'processing_charge' => $request->input('processing_charge') ?? 0,
-            'amount' => $netToAdd,
-            'note' => 'Excess repayment added to savings',
-        ]);
-
-    } else {
-
-        $outstanding = abs($netToAdd);
-
-        // Add deficit to most recent loan
-        $latestLoan = $user->loans()->where('status', 'approved')->latest()->first();
-
-        if ($latestLoan) {
-            $latestLoan->outstanding_balance += $outstanding;
-            $latestLoan->save();
+        // Set loan type if not saved before
+        if (!$loan->loan_type && $request->has('loan_type')) {
+            $loan->loan_type = $request->loan_type;
+            $loan->save();
         }
 
+        $principal = $loan->requested_amount;
+        $interest  = ($loan->interest_rate / 100) * $principal * max(1, $loan->duration);
+
+        $totalDue  = $principal + $interest;
+
+        // Stop if loan already fully paid
+        if ($loan->amount_repaid >= $totalDue) {
+            continue;
+        }
+
+        // Dynamic duration
+        $durationMonths   = max(1, $loan->duration);
+        $monthlyPrincipal = $principal / $durationMonths;
+        $monthlyInterest  = $interest / $durationMonths;
+        $monthlyExpected  = $monthlyPrincipal + $monthlyInterest;
+
+        // Payment to apply
+        $payment = min($approvedSavings + $amountPaid, $totalDue - $loan->amount_repaid);
+
+        if ($payment <= 0) {
+            continue;
+        }
+
+        $loan->amount_repaid += $payment;
+
+        // ============================
+        // CHECK FOR FULL PAYMENT + EXCESS
+        // ============================
+
+        if ($loan->amount_repaid >= $totalDue) {
+
+            $loan->status = 'complete';
+
+            // Find excess
+            $excess = $loan->amount_repaid - $totalDue;
+
+            if ($excess > 0) {
+                $loan->excess_payment += $excess;
+                $excessTotal += $excess;
+
+                // Correct amount repaid
+                $loan->amount_repaid = $totalDue;
+            }
+        }
+
+        $loan->save();
+
+        // Record repayment transaction
         Transaction::create([
             'user_id' => $user->id,
             'type' => 'Loan Repayment',
-            'loan_type' => $request->input('loan_type'),
-            'amount' => $outstanding,
+            'loan_type' => $loan->loan_type, // picked from database
+            'amount' => $payment,
             'processing_charge' => $request->input('processing_charge') ?? 0,
-            'note' => 'Savings used for loan repayment (₦' . number_format($approvedSavings, 2) . ')',
+            'note' => 'Repayment applied to loan #' . $loan->id,
+            'excess_payment' => $excess ?? 0,
+            
         ]);
+
+        // Reduce savings + amount paid
+        $usedFromSavings = min($approvedSavings, $payment);
+        $approvedSavings -= $usedFromSavings;
+        $amountPaid -= ($payment - $usedFromSavings);
+
+        $paymentMade = true;
     }
 
-    // Mark savings as applied
+    if (!$paymentMade) {
+        return back()->with('error', 'No payment was made because all loans are fully paid!');
+    }
+
+    // Mark approved savings as used
     Saving::where('user_id', $user->id)
         ->where('status', 'approved')
+        ->where('is_applied', false)
         ->update(['is_applied' => true]);
 
-    return back()->with('success', 'Monthly calculation completed successfully!');
+
+    // Show RED alert if there was excess
+    if ($excessTotal > 0) {
+        return back()->with('error', 
+            'Loan fully paid! Excess returned: ₦' . number_format($excessTotal, 2)
+        );
+    }
+
+    return back()->with('success', 'Loan repayment processed successfully!');
 }
 
 

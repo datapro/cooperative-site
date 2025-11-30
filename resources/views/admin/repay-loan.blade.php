@@ -5,17 +5,10 @@
     <h3 style="text-decoration:underline;">
         {{$member->name}}
     </h3>
-<div class="card mt-3 p-3">
-    <h4 style="color: rgb(17, 16, 16);">Loan Repayment for: {{$member->name}}</h4>
-     {{-- <p><strong>Current Total Savings:</strong> ₦{{ number_format($totalSavings, 2) }}</p> --}}
-    <p style="color: rgb(17, 16, 16);"><strong>Outstanding Balance:</strong> ₦{{ number_format($outstanding, 2) }}</p>
-
- </div>
 <section>
-    <div style="margin-bottom: 20px; margin-top:20px;display:flex;gap:20px;">
+    <div style="margin-bottom: 20px; margin-top:20px;">
         <button  type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Repay Loan</button>
-        {{-- <button  type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">Emergency Loan</button> --}}
-         <a href="{{route('contributionsavings')}}" class="btn btn-success">Back</a>
+         <a href="{{route('admin.consolidation')}}" class="btn btn-success">Back</a>
     </div>  
     @include('flash.messages')
 </section>
@@ -50,23 +43,9 @@
                 <label>Principal (₦) or Amount</label>
                 <input type="number" name="amount_paid" class="form-control" required>
             </div>
-             <div class="col-md-4">
-                    <label>Interest Rate (% per annum)</label>
-                    <select name="interest_rate" id="" class="form-control" required>
-                        <option name="interest_rate" value="5">5</option>
-                        <option name="interest_rate" value="6">6</option>
-                        <option name="interest_rate" value="7">7</option>
-                        <option name="interest_rate" value="8">8</option>
-                        <option name="interest_rate" value="9">9</option>
-                        <option name="interest_rate" value="10">10</option>
-                    </select>
-                </div>
-                 <div class="col-md-4">
-                    <label>Duration (Years for 24 months)</label>
-                    <input type="number" name="duration" class="form-control" required>
-                </div>
+    
             </div>
-            <div style="margin-top: 20px;display:flex;gap:20px; align-items:center;">
+            <div style="margin-top: 20px;">
             <button class="btn btn-primary" >Submit Repayment</button>         
             </div>
     </form>

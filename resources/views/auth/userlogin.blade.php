@@ -20,14 +20,14 @@
     </div><!-- /.page-header__border-box -->
 </section><!-- /.page-header --> --}}
 
-<section class="login-page section-space">
+<section class="login-page section-space" style="background-image: url({{asset('assets/images/back.jpeg')}});">
     <div class="container">
         <div class="row gutter-y-80">
             <div class="col-xl-6 wow fadeInLeft" data-wow-duration="1500ms">
                 <div class="login-page__image">
                     <div class="login-page__image__inner">
-                        <h1 style="font-weight: bold;text-align:center;">NASU CO-OPERATIVE FUOYE CHAPTER</h1>
-                        <img src="assets/images/nasulogo.jpeg" alt="login" style="border-radius:50px;">
+                        <h1 style="font-weight: bold;text-align:center; color:white;">NASU CO-OPERATIVE FUOYE CHAPTER</h1>
+                        <img src="assets/images/nasulogo.png" alt="login" style="border-radius:50px;">
                     </div><!-- /.login-page__image__inner -->
                 </div><!-- /.login-page__image -->
             </div><!-- /.col-xl-6 -->
@@ -219,6 +219,9 @@
                     </div><!-- /.login-page__bottom-shape -->
                 </div><!-- /.login-page__main-tab-box -->
             </div><!-- /.col-xl-6 -->
+            <marquee behavior="alternate" direction="">
+              <p style="color:rgb(224, 224, 224); text-align:center;font-size:8px;">powered by datapro for NASU CO-OPERATIVE FUOYE CHAPTER</p>
+            </marquee>
         </div><!-- /.row -->
     </div><!-- /.container -->
 </section><!-- /.login-page section-space -->

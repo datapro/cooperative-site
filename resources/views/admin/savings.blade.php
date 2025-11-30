@@ -5,26 +5,18 @@
 <div style="display: flex; column-gap:50px; justify-content:center;align-items:center;">
     <h1>Approve Member Pending Savings</h1>
     <a class="btn btn-primary" href="{{route('admin')}}" style="text-align: left;">
-        Back
-    </a>
-</div>
-<div>
-         <form class="" action="{{ route('search.savings') }}" method="GET">
-                @csrf
-            <label class="block text-gray-700 text-sm font-semibold mb-1">Member Name</label>
-              <select name="query" class="form-group" required>
-              <option value="">-- Select Member --</option>
-              @foreach ($members as $member)
-                  <option name="query"  value="{{ $member->name }}">{{ $member->name }}</option>
-              @endforeach
-          </select>
+                Back
+            </a>
+        </div>
+        <div style="display: flex;justify-content:center;">
+            <form method="GET" action="{{ route('admin.members.savings') }}">
+            <input type="text" name="name" placeholder="Search member" value="{{ $search }}">
             <button type="submit" class="btn btn-primary">Search</button>
-            <a href="{{route('search.savings')}}" class="btn btn-secondary">Refresh</a>
-          </form><br>
-</div>
-<div class="table-container">   
-    <table class="table">
-    <thead>
+        </form><br>
+    </div>
+    <div class="table-container">   
+        <table class="table">
+        <thead>
         <tr>
             <th>Member Name</th>
             <th>Approved Savings (₦)</th>
@@ -39,7 +31,6 @@
             <td>{{ $member->name }}</td>
             <td>₦{{ number_format($member->totalApproved, 2) }}</td>
             <td>₦{{ number_format($member->totalPending, 2) }}</td>
-            {{-- <td><strong>₦{{ number_format($member->total_savings, 2) }}</strong></td> --}}
             <td>
                 @if($member->totalPending > 0)
                     <form action="{{ route('admin.members.approveSavings', $member->id) }}" method="POST">

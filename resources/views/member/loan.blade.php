@@ -50,26 +50,44 @@
     @include('flash.messages')
 <div class="form-grid" style="justify-content:center; display:flex;">
     <form action="{{ route('member.loan') }}" method="POST" enctype="multipart/form-data" 
-    style="border-weight:1px;border-style:solid; border-color:pink;padding:16px;">
+    style="border-weight:1px;border-style:solid; border-color:pink;padding:16px; display:grid; 
+    grid-template-columns:1fr; gap:20px; justify-content:center; align-items:center;">
         @csrf
         {{-- Amount --}}
-
-        <div style="display: grid;grid-template-columns:1fr; 
-        gap:20px;justify-content:center;align-items:center;">
             <div class="col-auto">
                     <label for="amount" class="form-label">Loan Amount: (₦)</label>
                     <input type="number" name="requested_amount" step="0.01" required id="amount" class="form-control" placeholder="Enter amount to save">
                 </div>
 
+            <div class="col-auto">
+                    <label for="amount" class="form-label">Interest Rate: (%)</label>
+                   <select name="interest_rate" id="" class="form-control" >
+                        <option name="interest_rate" value="5">5</option>
+                        <option name="interest_rate" value="6">6</option>
+                        <option name="interest_rate" value="7">7</option>
+                        <option name="interest_rate" value="8">8</option>
+                   </select>
+            </div>
+
+            <div class="col-auto">
+                    <label for="amount" class="form-label">Loan Type</label>
+                    <select name="loan_type" id="" class="form-control" >
+                        <option name="loan_type" value="normal">normal</option>
+                        <option name="loan_type" value="emergency">emergency</option>
+                    </select>
+            </div>
+
         <div class="col-auto">
                     <label  class="form-label">Guarrantor Form</label>
-                    <input type="file" name="g_form" id="amount" class="form-group" required>
+                    <input type="file" name="g_form" id="amount" class="form-control" required>
                 </div>
         </div>
 
-            <button type="submit" class="btn btn-danger">
+        <div class="col-auto">
+            <button type="submit" class="btn btn-danger" class="form-control" >
                 {{ 'Submit Loan Request' }}
             </button>
+        </div>
 
     </form>
 
@@ -81,8 +99,6 @@
             <tr>
                 <th>Membership ID</th>
                 <th>Request Loan</th>
-                {{-- <th>Total Savings Balance</th>
-                <th>Repayable Loan</th> --}}
                 <th>Status</th>
                 <th>Review Form</th>
                 <th>Date Requested</th>
@@ -93,8 +109,6 @@
             <tr>
                 <td>{{$loan->user->membership_no}}</td>
                 <td>{{$loan->requested_amount}}</td>
-                {{-- <td>{{$loan->deducted_from_savings}}</td>
-                <td>{{$loan->amount_borrowed}}</td> --}}
                 <td> 
                      @if($loan->status === 'approved')
                         <span class="badge bg-success">Approved</span>

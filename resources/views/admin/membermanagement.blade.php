@@ -76,10 +76,13 @@
         <thead class="">
             <tr>
                 <th class="">Full Name</th>
+                <th class="">Staff ID</th>
+                <th class="">Ledger No</th>
+               <th class="">SavingsBF (₦)</th>
+               <th class="">loanBF (₦)</th>
+               <th class="">commBF (₦)</th>
                 <th class="">Email</th>
                 <th class="">Phone</th>
-                <th class="">Membership ID</th>
-               <th class="">Total Savings (₦)</th>
                 <th class="">Member State</th>
                 <th class="">View</th>
                 <th class="">Change State</th>
@@ -101,17 +104,13 @@
                     @endphp
               <tr class="">
                     <td class="">{{$member->name}} </td>
+                    <td class="">{{$member->membership_no}} </td>
+                    <td>{{$member->ledger_no }}</td>
+                    <td>₦{{$member->savingsBF }}</td>
+                    <td>₦{{$member->loanBF }}</td>
+                    <td>₦{{$member->commBF }}</td>
                     <td class="">{{$member->email}}</td>
                     <td class="">{{$member->phone}} </td>
-                    <td class="">{{$member->membership_no}} </td>
-                     <td>₦{{ number_format($totalSavings, 2) }}</td>
-                        {{-- <td>₦{{ number_format($totalLoanBorrowed, 2) }}</td>
-                        <td>₦{{ number_format($outstandingLoan, 2) }}</td>
-                   
-                        <td>
-                            <p>{{ $status }}</p>
-         
-                        </td> --}}
                     <td>
                                         
                     @if($member->status === 'active')

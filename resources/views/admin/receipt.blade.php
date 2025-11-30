@@ -3,7 +3,7 @@
 @section('content')
 <div style="text-align: right;">
     <button  type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">+ Print</button>
-   <a href="{{route('contributionsavings')}}" class="btn btn-secondary"> + BAcK</a> 
+   <a href="{{route('admin.consolidation')}}" class="btn btn-secondary"> + BAcK</a> 
 </div>
 
 {{-- reciept modal --}}
@@ -46,14 +46,14 @@
         <div>Staff No:</div>
         <div>{{$user->membership_no}}</div>
         <div>Ledger No:</div>
-        <div>{{$user->id}}</div>
+        <div>{{$user->ledger_no}}</div>
         <div>Phone No:</div>
         <div>{{$user->phone}}</div>
     </section>
     <h6 style="margin-bottom: 0;color:rgb(200,100,50);">Savings</h6>
     <section style="display: grid;grid-template-columns:1fr 100px;columns-gap:10px;margin-top:0;">
         <div>Saving B/F</div>
-        <div>₦{{ number_format( $savingBF, 2) }}</div>
+        <div>₦{{ number_format( $totalApprovedSavings, 2) }}</div>
         <div>Add Savings During the Months</div>
         <div>₦{{ number_format( $savingsThisMonth, 2) }}</div>
         <div>Total Savings</div>
@@ -63,17 +63,17 @@
     <h6 style="margin-bottom: 0;color:rgb(200,100,50);">Loan Services</h6>
     <section style="display: grid;grid-template-columns:1fr 100px;columns-gap:10px;margin-top:0;">
         <div>Loan Principal Balance B/F</div>
-        <div>₦{{ number_format( $loanBF, 2) }}</div>
+        <div>₦{{ number_format( $loanGranted, 2) }}</div>
         <div>Add Loan Granted During the Month</div>
         <div>₦{{ number_format( $loanGranted, 2) }}</div>
         <div>Less Loan principal Repayment</div>
-        <div>₦{{ number_format( $loanPrincipalRepayment, 2) }}</div>
+        <div>₦{{ number_format( $loanRepaymentCF , 2) }}</div>
         <div>Loan Repayment Balance C/F</div>
-        <div>₦{{ number_format( $loanRepaymentCF, 2) }}</div>
+        <div>₦{{ number_format( $loanLedgerCF, 2) }}</div>
         <div>Loan Ledger Balance C/F</div>
         <div>₦{{ number_format(  $loanLedgerCF, 2) }}</div>
         <div>Interest Charges on Loan</div>
-        <div>₦0.00</div>
+        <div>₦{{ number_format(  $loanInterest, 2) }}</div>
     </section>
     <hr>
     <h6 style="margin-bottom: 0;color:rgb(200,100,50);">Commodity Sale Services</h6>
@@ -93,13 +93,13 @@
         <div>Savings</div>
         <div>₦{{ number_format(  $totalSavings, 2) }}</div>
         <div>Principal Loan Recovery</div>
-        <div>₦{{ number_format(  $loanBF, 2) }}</div>
+        <div>₦{{ number_format(  $loanPrincipalRepayment, 2) }}</div>
         <div>Interest Charge on Loan</div>
-        <div>0.00</div>
+        <div>₦{{ number_format(  $loanInterest, 2) }}</div>
         <div>Commodity Sales Repayment</div>
         <div>₦{{ number_format(  $commodityRepayment, 2) }}</div>
         <div>Loan/Membership Incidental Charges</div>
-        <div>0.00</div>
+        <div>₦{{ number_format(   $charges, 2) }}</div>
         <div>Extra Charges</div>
         <div>₦{{ number_format( $extraCharges, 2) }}</div>
         <div style="font-weight: bold;">Total Deduction</div>

@@ -18,6 +18,8 @@ public function requestLoan(Request $request)
     $validated = $request->validate([
         'requested_amount' => 'required|numeric|min:1',
         'g_form' => 'required|file|mimes:pdf,doc,docx|max:4048',
+        'interest_rate' => 'required|min:0',
+        'loan_type' => 'required|string|in:normal,emergency',
     ]);
 
     if (!Auth::check()) {
@@ -39,6 +41,8 @@ public function requestLoan(Request $request)
         'user_id' => $user->id,
         'requested_amount' => $validated['requested_amount'],
         'amount_repaid' => 0,
+        'interest_rate' => $validated['interest_rate'],
+        'loan_type' => $validated['loan_type'],
         'status' => 'pending',
         'g_form' => $formName,
     ]);

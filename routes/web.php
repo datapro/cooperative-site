@@ -57,9 +57,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/settings', [App\Http\Controllers\Admin\AdminController::class, 'settings'])->name('settings');
         Route::get('/comodity', [App\Http\Controllers\Admin\AdminController::class, 'allCommodityRequests'])->name('comodity');
         Route::get('/search-member', [App\Http\Controllers\Admin\AdminController::class, 'search'])->name('search');
-        // search approved savings
-        Route::get('/search-savings', [App\Http\Controllers\Admin\AdminController::class, 'searchSavingsReport'])->name('search.savings');
-    //    ledger report 
+       
+       
+        // search member savingd and approved
+        Route::get('/search-member', [App\Http\Controllers\Admin\AdminController::class, 'search'])->name('search');
+        Route::get('/search-loan', [App\Http\Controllers\Admin\AdminController::class, 'searchLoanReport'])->name('search.loan');
+        
+      
         // Route::get('/ledger-receipt', [App\Http\Controllers\Admin\AdminController::class, 'showLedger'])->name('ledger.receipt');
        
        
@@ -68,7 +72,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
         // pay commodity 
         Route::post('/admin/comodity/pay/{userId}', [App\Http\Controllers\Admin\AdminController::class, 'payCommodity'])->name('comodity.pay');
         Route::get('/commodity-report/{id}', [App\Http\Controllers\Admin\AdminController::class, 'showComReport'])->name('commodity.admin.report');
-
+//consolidation
+        Route::get('/admin/consolidation', [App\Http\Controllers\Admin\ConsolidationController::class, 'index'])->name('admin.consolidation');
 
 
         // Member side

@@ -45,7 +45,7 @@ class HomeController extends Controller
         ->where('is_applied', true)
         ->sum('amount');
 
-        return view('home',compact('savings','totalSavings'));
+        return view('home',compact('savings','totalSavings','user'));
     }
 }
 

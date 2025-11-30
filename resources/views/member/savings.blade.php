@@ -67,7 +67,10 @@
                 <div class="btn btn-danger">
                     <div style="display: flex; justify-content:center;column-gap:20px;">
                     <h5 style="color: white;">Total Savings After Approval
-                        <br> ₦{{ number_format($totalSavings, 2) }}
+                        {{-- @php
+                          $totalSavings = $saving->savingsBF;
+                        @endphp --}}
+                        <br>₦{{ number_format($totalSavings, 2) }}
                     </h3> 
                     </div>
                 </div>
@@ -88,6 +91,7 @@
                 <th>Date</th>
                 <th>Remark</th>
                 <th>Savings Status</th>
+                <th>Savings Balance (₦)</th>
                 <th>Amount (₦)</th>
                 {{-- <th>Total Savings (₦)</th> --}}
             </tr>
@@ -100,9 +104,9 @@
                 <td>{{ \Carbon\Carbon::parse($saving->date)->format('d M, Y') }}</td>
                 <td>{{ $saving->remark }}</td>
                 <td> {{$saving->status}}</td>
+                <td>₦{{ number_format($saving->user->savingsBF, 2) }}</td>
                 <td class="{{ $saving->amount < 0 ? 'btn-danger' : 'btn-success' }}">
                 ₦{{ number_format($saving->amount, 2) }}</td>
-                {{-- <td>₦{{ number_format($total, 2) }}</td> --}}
             </tr>
         </tbody>
         @endforeach

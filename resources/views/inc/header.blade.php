@@ -285,10 +285,10 @@
           <i class="icon-cart" aria-hidden="true"></i>
           <span class="sr-only">Shopping Cart</span>
       </a><!-- /.search-toggler --> --}}
-        <a href="{{route('apply')}}" class="easilon-btn main-header__btn">
+        {{-- <a href="{{route('apply')}}" class="easilon-btn main-header__btn">
             <span>Apply for loan</span>
             <span class="easilon-btn__icon"><i class="icon-right-arrow"></i></span>
-        </a><!-- /.easilon-btn main-header__btn -->
+        </a><!-- /.easilon-btn main-header__btn --> --}}
         </div><!-- /.main-header__right -->
         </div><!-- /.main-header__inner -->
         </div><!-- /.container-fluid -->

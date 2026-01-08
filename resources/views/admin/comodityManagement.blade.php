@@ -105,7 +105,7 @@
 
 {{-- Pagination --}}
 <div class="mt-4" style="display:flex; justify-content:center;"> 
-    {{ $users->links() }}
+    {{-- {{ $users->links() }} --}}
  </div>
 
 

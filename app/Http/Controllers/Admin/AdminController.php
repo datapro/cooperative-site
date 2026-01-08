@@ -21,11 +21,25 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function dash()
-    {
-        //
-        return view('admin.dash');
-    }
+public function dash(Request $request)
+{
+    $search = trim($request->input('query'));
+
+    $users = User::with('commodityRequests')
+        ->where('role', 'member')
+        ->when($search, function ($q) use ($search) {
+            $q->where(function ($sub) use ($search) {
+                $sub->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('membership_no', 'LIKE', "%{$search}%");
+            });
+        })
+        ->orderBy('name')
+        ->paginate(20)
+        ->withQueryString();
+
+    return view('admin.dash', compact('users', 'search'));
+}
 
     public function toggleStatus($id)
 {
@@ -147,7 +161,7 @@ public function update(Request $request, $id)
 public function importMembers(Request $request)
 {
     $request->validate([
-        'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+        'file' => 'required|mimes:xlsx,xls,csv|max:18048',
     ]);
 
     Excel::import(new MembersImport, $request->file('file'));
@@ -163,70 +177,13 @@ public function importMembers(Request $request)
     if ($request->filled('name')) {
         $query->where('name', 'like', '%' . $request->name . '%');
     }
-        $members = $query->paginate(20);
+        $members = $query->get();
         return view('admin.membermanagement',compact('members'));
 
     }
 
 
-
-    // memeber contribution and savings 
-    /**
-     * Display member contribution and savings page.
-     */
-// public function contribution(Request $request)
-// {
-//     // Base query with relationships
-//     $query = User::with(['loans', 'savings']);
-
-//     // 🔹 Filter by name
-//     if ($request->filled('name')) {
-//         $query->where('name', 'like', '%' . $request->name . '%');
-//     }
-
-//     // 🔹 Filter by loan status (if provided)
-//     if ($request->filled('status')) {
-//         $query->whereHas('loans', function ($q) use ($request) {
-//             $q->where('status', $request->status);
-//         });
-//     }
-
-//     // 🔹 Filter by registration date
-//     if ($request->filled('created_at') && $request->filled('updated_at')) {
-//         $query->whereBetween('created_at', [$request->created_at, $request->updated_at]);
-//     }
-
-//     // 🔹 Load members and compute pending savings
-//     $members = $query
-//         ->withSum(['savings as total_pending' => function ($q) {
-//             $q->where('status', 'pending');
-//         }], 'amount')
-//         ->paginate(20);
-
-//     // 🔹 For each member, compute loan totals dynamically
-//      // Add calculated values to each member
-//     foreach ($members as $member) {
-//         $member->totalApprovedSavings = $member->savings->where('status', 'approved')->sum('amount');
-//         $member->totalLoans = $member->loans->where('status', 'approved')->sum('requested_amount');
-//         $member->totalRepaid = $member->loans->where('status', 'approved')->sum('amount_repaid');
-//         $member->total_outstanding = max($member->totalLoans - $member->totalRepaid, 0);
-//     }
-
-//     // grab status from the request (nullable)
-//     $status = $request->input('status', null);
-
-//     // 🔹 You can calculate global totals (optional)
-//     $totalLoans = $members->sum('totalLoans');
-//     $totalRepaid = $members->sum('totalRepaid');
-//     $total_outstanding = $members->sum('total_outstanding');
-
-//     // 🔹 Return data to the view
-//     return view('admin.contributionsavings', compact(
-//         'members',
-//         'status'
-//     ));
-// }
-
+    
  public function membersSavings(Request $request)
 {
     // Get search term
@@ -272,8 +229,8 @@ public function approveMemberSavings($id)
             'remark' => 'Approved'
         ]);
 
-    $member->increment('savingsBF', $pendingTotal);
-    $member->increment('total_savings', $pendingTotal);
+    // $member->increment('savingsBF', $pendingTotal);
+    // $member->increment('total_savings', $pendingTotal);
 
     return redirect()->back()->with(
         'success',
@@ -285,14 +242,15 @@ public function approveMemberSavings($id)
 public function toggleAdmin(User $member): RedirectResponse
 {
     // Don't allow self demotion
-    if (auth()->id() == $member->id) {
+    if (auth()->id() === $member->id) {
         return back()->with('error', 'You cannot change your own admin status.');
     }
+    // $member->is_admin = !$member->is_admin;
+    $member->update([
+        'role' => $member->role === 'admin' ? 'member' : 'admin',
+    ]);
 
-    $member->is_admin = !$member->is_admin;
-    $member->save();
-
-    return back()->with('status', 'Admin status updated for ' . $member->name);
+    return back()->with('success', 'Role updated for ' . $member->name);
 }
 
 
@@ -364,19 +322,30 @@ public function toggleAdmin(User $member): RedirectResponse
         $totalSavings = $savingBF + $savingsThisMonth;
 
         // --- LOANS ---
-        $loanBF = $user->loans()->where('status', 'approved')->sum('outstanding_balance');
-        $loanGranted = $user->loans()->whereMonth('created_at', now()->month)->sum('requested_amount');
-        $loanPrincipalRepayment = $user->loans()->sum('amount_repaid');
-        $loanRepaymentCF = $loanBF + $loanGranted - $loanPrincipalRepayment;
-        $loanLedgerCF = $loanRepaymentCF; // or calculate differently if needed
-        $loanInterest = $user->loans()->sum('interest_rate');
+        $approvedLoans = $user->loans()->where('status', 'approved');
+
+       
+
+        $loanBF = $user->loans()
+            ->where('status', 'approved')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->get()
+            ->sum(function ($loan) {
+                return max(0, $loan->requested_amount - $loan->amount_paid);
+            });
+        $loanGranted = $user->loans()->whereMonth('created_at', now()->month)->where('status', 'approved')->sum('requested_amount');
+        $loanPrincipalRepayment = $user->loans()->where('status', 'approved')->sum('amount_repaid');
+        $loanRepaymentCF = $loanBF - $loanPrincipalRepayment;
+        $loanInterest = $approvedLoans->sum('interest_rate') * $approvedLoans->sum('requested_amount') / 100;
+        $loanLedgerCF = $loanRepaymentCF + $loanInterest; // or calculate differently if needed
         $charges = Transaction::where('user_Id', $user_Id)->sum('processing_charge');
 
         // --- COMMODITY SALES ---
         $commodityBF = $user->commodityRequests()->where('status', 'approved')->sum('price');
         $commodityDuring = $user->commodityRequests()->where('status', 'approved')->whereMonth('created_at', now()->month)->sum('price');
         $commodityRepayment = $user->commodityRequests()->where('status', 'approved')->sum('payment_amount');
-        $commodityCF = $commodityBF + $commodityDuring - $commodityRepayment;
+        $commodityCF =  $commodityDuring- $commodityRepayment;
         $principalRecovery = $user->commodityRequests()->sum('payment_amount');
         // $interestCharge = $user->commodityRequests()->sum('interest_rate');
         $commoditySalesRepayment = $user->commodityRequests()->sum('payment_amount');
@@ -428,7 +397,7 @@ public function toggleAdmin(User $member): RedirectResponse
 
 public function allCommodityRequests()
 {
-    $users = User::with('commodityRequests')->paginate(20);
+    $users = User::with('commodityRequests')->get();
 
     foreach ($users as $user) {
 

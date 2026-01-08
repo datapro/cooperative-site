@@ -36,6 +36,14 @@
         <label for="phone" class="form-label">Phone Number</label>
         <input type="text" name="phone" id="phone" value="{{ old('phone', $member->phone) }}" class="form-control">
     </div>
+    <div class="col-md-4">
+        <label for="commBF" class="form-label">CommBF</label>
+        <input type="text" name="commBF" id="commBF" value="{{ old('commBF', $member->commBF) }}" class="form-control">
+    </div>
+    <div class="col-md-4">
+        <label for="savingsBF" class="form-label">SavingsBF</label>
+        <input type="text" name="savingsBF" id="savingsBF" value="{{ old('savingsBF', $member->savingsBF) }}" class="form-control">
+    </div>
 
     <div class="col-md-4">
         <label for="status" class="form-label">Status</label>

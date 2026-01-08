@@ -14,35 +14,33 @@ class MemberSavingsController extends Controller
 {
 
 
-public function storesaving(Request $request)
+public function storeSaving(Request $request, User $user)
 {
     $request->validate([
-        'amount' => ['required', 'string', 'max:255'],
-        'remark' => ['nullable|string|max:255'],
-
+        'amount' => ['required', 'numeric', 'min:1'],
+        'remark' => ['nullable', 'string', 'max:255'],
     ]);
 
-    if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'Please log in to make a loan payment.');
+    // OPTIONAL: block saving for other admins
+    if ($user->role === 'admin' && $user->id !== auth()->id()) {
+        abort(403, 'Cannot save for another admin.');
     }
 
-    $user = Auth::user();
-    $saving = new Saving([
-            'user_id' => auth()->id(),
-            'amount' => $request->amount,
-            'remark' => $request->remark ?? 'Pending deposit',
-            'status' => 'pending',
-        ]);
-
-         // Calculate user's total savings so far
-        $total = Saving::where('user_id', $request->user_id)
+    // Calculate user's approved savings so far
+    $totalApproved = Saving::where('user_id', $user->id)
         ->where('status', 'approved')
         ->sum('amount');
 
-    $saving->total_savings = $total + $request->amount;
-    $saving->save();
+    $saving = Saving::create([
+        'user_id' => $user->id, // 👈 SPECIFIC USER
+        'amount' => $request->amount,
+        'remark' => $request->remark ?? 'Pending deposit',
+        'status' => 'pending',
+        'total_savings' => $totalApproved + $request->amount,
+    ]);
 
-    return redirect()->back()->with('success', 'Your saving is pending admin approval.');
+    return redirect()->back()
+        ->with('success', "Saving added for {$user->name} and pending approval.");
 }
 
 
@@ -134,27 +132,26 @@ public function storesaving(Request $request)
 
 
     // member savings show 
- public function userSavings()
- 
-    {
-          if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'Please log in to make a loan payment.');
-    }
-        $user = Auth::user();
+public function memberSavings(User $user) // inject the user you want
+{
+    // Optional: prevent admin from checking other admins
+    // if ($user->role === 'admin') {
+    //     abort(403, 'Cannot view admin savings.');
+    // }
 
-    //     // Get all savings records for the user (latest first)
-        $savings = Saving::where('user_id', $user->id)
-            ->latest()
-            ->paginate(20);
+    // Get all savings for that member (latest first)
+    $savings = Saving::where('user_id', $user->id)
+        ->latest()
+        ->paginate(20);
 
-        $totalSavings = Saving::where('user_id', $user->id)
+    // Total approved & applied savings
+    $totalSavings = Saving::where('user_id', $user->id)
         ->where('status', 'approved')
         ->where('is_applied', true)
         ->sum('amount');
-        
-        return view('member.savings',compact('savings','totalSavings','user'));
- 
-    }
+
+    return view('member.savings', compact('savings', 'totalSavings', 'user'));
+}
 
 
 

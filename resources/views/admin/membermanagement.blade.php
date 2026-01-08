@@ -79,10 +79,11 @@
                 <th class="">Staff ID</th>
                 <th class="">Ledger No</th>
                <th class="">SavingsBF (₦)</th>
-               <th class="">loanBF (₦)</th>
+               {{-- <th class="">loanBF (₦)</th> --}}
+               {{-- <th class="">loanINT (%)</th> --}}
                <th class="">commBF (₦)</th>
                 <th class="">Email</th>
-                <th class="">Phone</th>
+                <th class="">Password</th>
                 <th class="">Member State</th>
                 <th class="">View</th>
                 <th class="">Change State</th>
@@ -107,10 +108,11 @@
                     <td class="">{{$member->membership_no}} </td>
                     <td>{{$member->ledger_no }}</td>
                     <td>₦{{$member->savingsBF }}</td>
-                    <td>₦{{$member->loanBF }}</td>
+                    {{-- <td>₦{{$member->loanBF }}</td> --}}
+                    {{-- <td>{{$member->loanINT }}</td> --}}
                     <td>₦{{$member->commBF }}</td>
                     <td class="">{{$member->email}}</td>
-                    <td class="">{{$member->phone}} </td>
+                    <td class="">password123</td>
                     <td>
                                         
                     @if($member->status === 'active')
@@ -142,13 +144,13 @@
                             <button type="submit" class="btn btn-danger" >Delete</button>
                         </form>
                     </td>
-                     <td class="border px-2">{{ $member->is_admin ? 'Yes' : 'No' }}</td>
+                     <td class="border px-2">{{ $member->role === 'admin' ? 'Yes' : 'No' }}</td>
                     <td class="border px-2">
                         @if (auth()->id() !== $member->id)
                         <form method="POST" action="{{ route('admin.toggleAdmin', $member) }}">
                             @csrf
                             <button type="submit" class="btn btn-success btn-sm">
-                                {{ $member->is_admin ? 'Revoke Admin' : 'Make Admin' }}
+                                {{ $member->role === 'admin' ? 'Revoke Admin' : 'Make Admin' }}
                             </button>
                         </form>
                         @else
@@ -162,7 +164,7 @@
 
 {{-- Pagination --}}
 <div class="mt-4" style="display:flex; justify-content:center;"> 
-    {{ $members->links() }}
+    {{-- {{ $members->links() }} --}}
  </div>
 </main>
 

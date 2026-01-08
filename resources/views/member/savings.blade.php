@@ -2,52 +2,55 @@
 @extends('layouts.app')
 @section('content')
 <aside class="sidebar">
+
     <div class="links">
-        <a href="{{route('home')}}">
+        <a href="{{route('admin')}}">
         <img src="{{asset('assets/images/membericons/dash.png')}}" />
         Dashboard
     </a>
     </div>
-    <div class="links">
-        <a href="{{route('member.showsavings')}}">
-        <img src="{{asset('assets/images/membericons/savings.png')}}" />
-        Savings
-    </a>
-    </div>
-    <div class="links">
-        <a href="{{route('memberloan')}}">
-        <img src="{{asset('assets/images/membericons/loans.png')}}" />
-        Loans
-    </a>
-    </div>
-    <div class="links">
-        <a href="{{route('membercontributions')}}">
-        <img src="{{asset('assets/images/membericons/business.png')}}" />
-        Savings Report
-    </a>
-    </div>
-    <div class="links">
-        <a href="{{route('commodity_request')}}">
-        <img src="{{asset('assets/images/membericons/business.png')}}" />
-        Commodity Request
-    </a>
-    </div>
-    <div class="links">
-        <a href="{{route('profile')}}">
-        <img src="{{asset('assets/images/membericons/profile.png')}}" />
-       Profile
-    </a>
+  @auth
+    @if(auth()->user()->role === 'member')
 
-    </div>
+        <div class="links">
+            <a href="{{ route('memberloan') }}">
+                <img src="{{ asset('assets/images/membericons/loans.png') }}" />
+                Loans
+            </a>
+        </div>
+
+        <div class="links">
+            <a href="{{ route('membercontributions') }}">
+                <img src="{{ asset('assets/images/membericons/business.png') }}" />
+                Savings Report
+            </a>
+        </div>
+
+        <div class="links">
+            <a href="{{ route('commodity_request') }}">
+                <img src="{{ asset('assets/images/membericons/business.png') }}" />
+                Commodity Request
+            </a>
+        </div>
+
+        <div class="links">
+            <a href="{{ route('profile') }}">
+                <img src="{{ asset('assets/images/membericons/profile.png') }}" />
+                Profile
+            </a>
+        </div>
+
+    @endif
+@endauth
 </aside>
 
 <div class="max-w-2xl mx-auto bg-white" style="text-align:center;">
     <div style="display: flex;justify-content:center; column-gap:50px; margin-buttom:20px; align-items:center;">
 
-        <h2 class="text-2xl font-bold mb-4" style="display: inline-block">Add to My Savings</h2>
+        <h2 class="text-2xl font-bold mb-4" style="display: inline-block">Add to {{ $user->name }}'s Savings</h2>
               
     </div>
-    <form action="{{route('member.showsavings')}}" method="POST">
+    <form action="{{route('member.showsavings',$user->id)}}" method="POST">
         @include('flash.messages')
         @csrf
         <div class="col-auto">
@@ -57,7 +60,7 @@
         <button type="submit" class="btn btn-primary">
             {{ 'Save Now' }}
         </button>
-          <a href="{{ route('home') }}" class="btn btn-secondary" style="vertical-align: top;">Cancel</a>
+          <a href="{{ route('admin') }}" class="btn btn-secondary" style="vertical-align: top;">Cancel</a>
     </form>
     <h3 class="mb-4" style="text-align: center;display:block">My Savings Summary</h3>
 
@@ -67,9 +70,9 @@
                 <div class="btn btn-danger">
                     <div style="display: flex; justify-content:center;column-gap:20px;">
                     <h5 style="color: white;">Total Savings After Approval
-                        {{-- @php
-                          $totalSavings = $saving->savingsBF;
-                        @endphp --}}
+                        @php
+                          $totalSavings = $user->savings()->where('status', 'approved')->sum('amount');
+                        @endphp
                         <br>₦{{ number_format($totalSavings, 2) }}
                     </h3> 
                     </div>

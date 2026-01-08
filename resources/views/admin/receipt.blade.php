@@ -2,7 +2,7 @@
 @extends('layouts.app')
 @section('content')
 <div style="text-align: right;">
-    <button  type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">+ Print</button>
+    <button  type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">+ Print Account Receipt</button>
    <a href="{{route('admin.consolidation')}}" class="btn btn-secondary"> + BAcK</a> 
 </div>
 
@@ -24,7 +24,7 @@
                 class="w-32 h-32 rounded-full border border-gray-300 object-cover" 
                 alt="Profile Photo" style="width: 50px"/>
             @else
-                <img src="{{ asset('assets/images/nasulogo.jpeg') }}" alt="Default Avatar" width="100px">
+                <img src="{{ asset('assets/images/nasulogo.png') }}" alt="Default Avatar" width="100px">
             @endif
         </div>
         <div style="text-align: center;font-weight:bold;">
@@ -32,7 +32,7 @@
             <p style="text-align: center; font-weight:50px;">Transactin for {{$user->created_at->format('F Y')}}</p>
         </div>
           <div>
-            <img src="{{asset('assets/images/nasulogo.jpeg')}}" width="50px" alt="">
+            <img src="{{asset('assets/images/nasulogo.png')}}" width="50px" alt="logo">
         </div>
     </section>
     <section style="display:grid; 
@@ -63,15 +63,15 @@
     <h6 style="margin-bottom: 0;color:rgb(200,100,50);">Loan Services</h6>
     <section style="display: grid;grid-template-columns:1fr 100px;columns-gap:10px;margin-top:0;">
         <div>Loan Principal Balance B/F</div>
-        <div>₦{{ number_format( $loanGranted, 2) }}</div>
+        <div>₦{{ number_format( $loanBF, 2) }}</div>
         <div>Add Loan Granted During the Month</div>
         <div>₦{{ number_format( $loanGranted, 2) }}</div>
         <div>Less Loan principal Repayment</div>
-        <div>₦{{ number_format( $loanRepaymentCF , 2) }}</div>
+        <div>₦{{ number_format( $loanPrincipalRepayment , 2) }}</div>
         <div>Loan Repayment Balance C/F</div>
-        <div>₦{{ number_format( $loanLedgerCF, 2) }}</div>
+        <div>₦{{ number_format( $loanRepaymentCF, 2) }}</div>
         <div>Loan Ledger Balance C/F</div>
-        <div>₦{{ number_format(  $loanLedgerCF, 2) }}</div>
+        <div>₦{{ number_format(  $loanRepaymentCF, 2) }}</div>
         <div>Interest Charges on Loan</div>
         <div>₦{{ number_format(  $loanInterest, 2) }}</div>
     </section>
@@ -84,6 +84,8 @@
         <div>₦{{ number_format( $commodityDuring, 2) }}</div>
         <div>Less Commodity Sales Repayment</div>
         <div>₦{{ number_format(   $commodityRepayment, 2) }}</div>
+        {{-- <div>interest Charge on Commodity Sales</div>
+        <div>₦{{ number_format(   $interestCharge, 2) }}</div> --}}
         <div>Commodity Sales Balance C/F</div>
         <div>₦{{ number_format(  $commodityCF, 2) }}</div>
     </section>
@@ -112,7 +114,7 @@
 </div>
       <div class="modal-footer">
         <a href="" class="btn btn-primary">Send</a>
-        <button class="btn btn-success" onclick="printModal('modalContent')">Print</button>
+        <button class="btn btn-success" onclick="printModal('modalContent')">Print Account Receipt</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
@@ -134,14 +136,14 @@
     <div class="col-md-4">
         <div class="card shadow-sm p-3 border-success">
             <h6 class="text-success">Total Loan Paid</h6>
-            <h3>₦{{ number_format($totalLoanPaid, 2) }}</h3>
+            <h3>₦{{ number_format($loanPrincipalRepayment, 2) }}</h3>
         </div>
     </div>
 
     <div class="col-md-4">
         <div class="card shadow-sm p-3 border-danger">
-            <h6 class="text-danger">Outstanding Loan</h6>
-            <h3>₦{{ number_format($totalOutstandingLoan, 2) }}</h3>
+            <h6 class="text-danger">Outstanding Loan + Interest (₦{{ number_format(  $loanInterest, 2) }})</h6>
+            <h3>₦{{ number_format($loanLedgerCF, 2) }}</h3>
         </div>
     </div>
 

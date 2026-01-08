@@ -22,7 +22,7 @@
                 {{-- <th>Excess Payment (₦)</th> --}}
                 <th>Loans Details</th>
                 <th>Repay Loan</th>
-                <th>Receipts</th>
+                <th>Account Detail</th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +41,7 @@
                         </button>
                     </td>
                     <td><a href="{{route('admin.repay-loan',$member->id)}}" class="btn btn-secondary">Repay</a></td>
-                    <td><a href="{{route('admin.receipt',$member->id)}}" class="btn btn-secondary">Receipts</a></td>
+                    <td><a href="{{route('admin.receipt',$member->id)}}" class="btn btn-secondary">Account Info</a></td>
                 </tr>
                 <tr>
                     <td colspan="8" class="p-0 border-0">

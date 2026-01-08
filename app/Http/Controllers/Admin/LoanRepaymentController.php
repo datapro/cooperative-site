@@ -36,42 +36,42 @@ class LoanRepaymentController extends Controller
     }
 
 
-protected function calculateLoanRepayment($user, Request $request)
-{
-    $totalRepayment = 0;
+// protected function calculateLoanRepayment($user, Request $request)
+// {
+//     $totalRepayment = 0;
 
-    foreach ($user->loans as $loan) {
+//     foreach ($user->loans as $loan) {
 
-        // Accept interest rate from form input — fallback to DB or default
-        $interestRate = $request->input('interest_rate');
+//         // Accept interest rate from form input — fallback to DB or default
+//         $interestRate = $request->input('interest_rate');
 
-        // Accept amount paid by user for this cycle
-        $amountPaid = $request->input('amount_paid', 0);
+//         // Accept amount paid by user for this cycle
+//         $amountPaid = $request->input('amount_paid', 0);
 
-        // Total interest
-        $interestAmount = ($loan->requested_amount * $interestRate) / 100;
+//         // Total interest
+//         $interestAmount = ($loan->requested_amount * $interestRate) / 100;
 
-        // Total amount due
-        $totalDue = $loan->requested_amount + $interestAmount;
+//         // Total amount due
+//         $totalDue = $loan->requested_amount + $interestAmount;
 
-        // Outstanding balance remaining
-        $outstanding = $totalDue - $loan->amount_repaid;
+//         // Outstanding balance remaining
+//         $outstanding = $totalDue - $loan->amount_repaid;
 
-        if ($outstanding > 0) {
+//         if ($outstanding > 0) {
 
-            // User's payment should not exceed outstanding
-            $repayThisMonth = min($amountPaid, $outstanding);
+//             // User's payment should not exceed outstanding
+//             $repayThisMonth = min($amountPaid, $outstanding);
 
-            $totalRepayment += $repayThisMonth;
+//             $totalRepayment += $repayThisMonth;
 
-            // Update the loan amount repaid
-            $loan->amount_repaid += $repayThisMonth;
-            $loan->save();
-        }
-    }
+//             // Update the loan amount repaid
+//             $loan->amount_repaid += $repayThisMonth;
+//             $loan->save();
+//         }
+//     }
 
-    return $totalRepayment;
-}
+//     return $totalRepayment;
+// }
 
 public function finalizeCalculations($userId, Request $request)
 {

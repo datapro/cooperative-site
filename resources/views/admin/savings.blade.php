@@ -19,6 +19,7 @@
         <thead>
         <tr>
             <th>Member Name</th>
+            <th>Email</th>
             <th>Approved Savings (₦)</th>
             <th>Pending Savings (₦)</th>
             {{-- <th>Total Savings (₦)</th> --}}
@@ -29,6 +30,7 @@
         @foreach($members as $member)
         <tr>
             <td>{{ $member->name }}</td>
+            <td>{{ $member->email }}</td>
             <td>₦{{ number_format($member->totalApproved, 2) }}</td>
             <td>₦{{ number_format($member->totalPending, 2) }}</td>
             <td>

@@ -4,7 +4,7 @@
 <div class="mb-6 flex justify-between items-center" style="justify-content:center; display:flex; gap:50px;align-items:center;">
     <h2 class="text-2xl font-bold text-gray-800" style="color: white;">👤 Member Profile</h2>
 
-    <a href="{{route('home')}}" class="btn btn-secondary">
+    <a href="{{route('memberdashboard', $user->id)}}" class="btn btn-secondary">
         ← Back to Members
     </a>
 </div>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
+
 class AdminMiddleware
 {
     /**
@@ -14,15 +15,25 @@ class AdminMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-        if (Auth::check() && Auth::user()->is_admin) {
-            return $next($request);
-        }
-
-        // abort(403, 'Unauthorized: Admins only');
-          // If not admin, redirect or abort
-        return redirect('home')
-            ->with('error', 'Unauthorized access: Admins only.');
+    public function handle($request, Closure $next)
+{
+  if (!auth()->check()) {
+        return redirect()->route('login');
     }
+
+    $user = auth()->user();
+
+    if ($user->role === 'admin') {
+        // Allow admin to continue
+        return $next($request);
+    }
+
+    if ($user->role === 'member') {
+        // Redirect member to their dashboard
+        return redirect()->route('memberdashboard', $user->id);
+    }
+
+    // If role is something else, deny access
+    abort(403, 'Unauthorized');
+}
 }

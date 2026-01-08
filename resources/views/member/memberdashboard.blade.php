@@ -14,7 +14,7 @@
                     </div>
                     @endif
 
-                     <img src="{{ asset('images/' . $user->passport) }}" width="200px"
+                     <img src="{{ asset('images/' . auth()->user()->passport) }}" width="200px"
                  class="w-32 h-32 rounded-full border border-gray-300 object-cover" 
                  alt="Profile Photo" style="width: 100px; border-radius:50px;"/>
                  {{ __('Membership Per Excellent!') }}
@@ -29,50 +29,42 @@
 </div>
 <aside class="sidebar">
     <div class="links">
-        <a href="{{route('member.showsavings',$user->id)}}">
-        <img src="{{asset('assets/images/membericons/savings.png')}}" />
-        Savings
-    </a>
-    </div>
-    @auth
-    @if(auth()->user()->role === 'member')
-         <div class="links">
-        <a href="{{route('home')}}">
+        <a href="#">
         <img src="{{asset('assets/images/membericons/dash.png')}}" />
         Dashboard
     </a>
     </div>
-    
-        <div class="links">
-            <a href="{{ route('memberloan') }}">
-                <img src="{{ asset('assets/images/membericons/loans.png') }}" />
-                Loans
-            </a>
-        </div>
+    {{-- <div class="links">
+        <a href="{{route('member.showsavings')}}">
+        <img src="{{asset('assets/images/membericons/savings.png')}}" />
+        Savings
+    </a>
+    </div> --}}
+    <div class="links">
+        <a href="{{route('memberloan')}}">
+        <img src="{{asset('assets/images/membericons/loans.png')}}" />
+        Loans
+    </a>
+    </div>
+    <div class="links">
+        <a href="{{route('membercontributions')}}">
+        <img src="{{asset('assets/images/membericons/business.png')}}" />
+        Savings Report
+    </a>
+    </div>
+    <div class="links">
+        <a href="{{route('commodity_request')}}">
+        <img src="{{asset('assets/images/membericons/business.png')}}" />
+        Commodity Request
+    </a>
+    </div>
+    <div class="links">
+        <a href="{{route('profile')}}">
+        <img src="{{asset('assets/images/membericons/profile.png')}}" />
+       Profile
+    </a>
 
-        <div class="links">
-            <a href="{{ route('membercontributions') }}">
-                <img src="{{ asset('assets/images/membericons/business.png') }}" />
-                Savings Report
-            </a>
-        </div>
-
-        <div class="links">
-            <a href="{{ route('commodity_request') }}">
-                <img src="{{ asset('assets/images/membericons/business.png') }}" />
-                Commodity Request
-            </a>
-        </div>
-
-        <div class="links">
-            <a href="{{ route('profile') }}">
-                <img src="{{ asset('assets/images/membericons/profile.png') }}" />
-                Profile
-            </a>
-        </div>
-
-    @endif
-@endauth
+    </div>
 </aside>
 <main style="text-align:center;">
     <div class="mb-6">

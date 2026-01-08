@@ -27,7 +27,7 @@
                         class="w-32 h-32 rounded-full border border-gray-300 object-cover" 
                         alt="Profile Photo" style="width: 100px; border-radius:50px;"/>
                     @else
-                        <img src="{{ asset('assets/images/nasulogo.jpeg') }}" alt="Default Avatar" width="100px">
+                        <img src="{{ asset('assets/images/nasulogo.png') }}" alt="Default Avatar" width="100px">
                     @endif
                    
    

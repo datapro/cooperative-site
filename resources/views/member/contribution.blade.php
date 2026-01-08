@@ -3,17 +3,17 @@
 @section('content')
 <aside class="sidebar">
     <div class="links">
-        <a href="{{route('home')}}">
+        <a href="#">
         <img src="{{asset('assets/images/membericons/dash.png')}}" />
         Dashboard
     </a>
     </div>
-    <div class="links">
+    {{-- <div class="links">
         <a href="{{route('member.showsavings')}}">
         <img src="{{asset('assets/images/membericons/savings.png')}}" />
         Savings
     </a>
-    </div>
+    </div> --}}
     <div class="links">
         <a href="{{route('memberloan')}}">
         <img src="{{asset('assets/images/membericons/loans.png')}}" />
@@ -79,7 +79,12 @@
  </div>
  <div>
  <label for="" style="font-weight: bold">Total Savings: </label>
- <input type="text" value="₦{{ number_format($totalSavings, 2) }}" disabled>
+ <input type="text" 
+ value="
+        @php
+        $totalSavings = $user->savings()->where('status', 'approved')->sum('amount');
+    @endphp
+    ₦{{ number_format($totalSavings, 2) }}" disabled>
  </div>
 
 </div>

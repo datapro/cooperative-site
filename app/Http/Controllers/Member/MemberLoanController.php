@@ -17,6 +17,7 @@ public function requestLoan(Request $request)
     // Validate input
     $validated = $request->validate([
         'requested_amount' => 'required|numeric|min:1',
+        // 'duration' => 'required|numeric|min:1',
         'g_form' => 'required|file|mimes:pdf,doc,docx|max:4048',
         'interest_rate' => 'required|min:0',
         'loan_type' => 'required|string|in:normal,emergency',
@@ -40,6 +41,7 @@ public function requestLoan(Request $request)
     Loan::create([
         'user_id' => $user->id,
         'requested_amount' => $validated['requested_amount'],
+        // 'duration' => $validated['duration'],
         'amount_repaid' => 0,
         'interest_rate' => $validated['interest_rate'],
         'loan_type' => $validated['loan_type'],

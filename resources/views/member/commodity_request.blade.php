@@ -3,17 +3,17 @@
 @section('content')
 <aside class="sidebar">
     <div class="links">
-        <a href="{{route('home')}}">
+        <a href="#">
         <img src="{{asset('assets/images/membericons/dash.png')}}" />
         Dashboard
     </a>
     </div>
-    <div class="links">
+    {{-- <div class="links">
         <a href="{{route('member.showsavings')}}">
         <img src="{{asset('assets/images/membericons/savings.png')}}" />
         Savings
     </a>
-    </div>
+    </div> --}}
     <div class="links">
         <a href="{{route('memberloan')}}">
         <img src="{{asset('assets/images/membericons/loans.png')}}" />

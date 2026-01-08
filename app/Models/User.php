@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Commodity_request;
+use App\Models\Loan;
 
 class User extends Authenticatable
 {
@@ -21,6 +23,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'role',
         'occupation',
         'address',
         'membership_no',
@@ -30,9 +33,8 @@ class User extends Authenticatable
         'passport',
         'email',
         'password',
-        'loanBF',
-        'commBF',
         'savingsBF',
+        'commBF'
     ];
 
     
@@ -85,36 +87,38 @@ public function syncApprovedRecords()
         Saving::updateOrCreate(
             ['user_id' => $this->id],
             [
-                'amount' => $this->savingsBF,
-                'status' => 'approved'
+            'amount' => (float) $this->savingsBF,
+            'status' => 'approved',
+            'remark' => 'saved'
             ]
         );
     }
 
     // --- COMMODITY ---
     if ($this->commBF > 0) {
-        commodity_request::updateOrCreate(
+        Commodity_request::updateOrCreate(
             ['user_id' => $this->id],
             [
-                'payment_option' => $this->payment_option ?? 'cash', // choose default
-                'amount' => $this->commBF,
-                'status' => 'approved'
+                'payment_option' =>$this->payment_option ?? 'cash', // choose default
+                'price' =>(float)  $this->commBF,
+                'status' => 'pending'
             ]
         );
     }
 
     // --- LOAN ---
-    if ($this->loanBF > 0) {
-        Loan::updateOrCreate(
-            ['user_id' => $this->id],
-            [
-                'requested_amount' => $this->loanBF,  // REQUIRED FIELD
-                'amount' => $this->loan,
-                'status' => 'approved',
-                'g_form' => $this->g_form ?? 'system-auto-approved'
-            ]
-        );
-    }
+    // if ($this->loanBF > 0) {
+    //     Loan::updateOrCreate(
+    //         ['user_id' => $this->id],
+    //         [
+    //             'requested_amount' =>(float) $this->loanBF,  // REQUIRED FIELD
+    //             // 'amount' =>(float) $this->loan,
+    //             'interest_rate'=>(float) $this->loanINT,
+    //             'status' => 'pending',
+    //             'g_form' => $this->g_form ?? 'system-auto-approved'
+    //         ]
+    //     );
+    // }
 }
 
 

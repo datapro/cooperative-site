@@ -35,15 +35,25 @@ public function login(Request $request)
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
-        // ✅ Redirect based on role
+
+        $request->session()->regenerate(); // 🔐 important security step
+
         $user = Auth::user();
-        if ($user->is_admin) {
-            return redirect()->intended('/admin');
+
+        // Redirect based on role
+        if ($user->role === 'admin') {
+            return redirect()->route('admin');
         }
-        return redirect()->intended('/home');
+
+        if ($user->role === 'member') {
+           return redirect()->route('memberdashboard', $user->id);
+        }
+
+        // fallback (optional)
+        Auth::logout();
+        return redirect()->route('login')->with('error', 'Unauthorized role.');
     }
 
-    // ❌ If login fails, redirect back with flash message
     return back()->with('error', 'Invalid email or password. Please try again.');
 }
   

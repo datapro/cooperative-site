@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Import this!
 use App\Models\Saving;
 use App\Models\Loan;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -48,5 +49,22 @@ class HomeController extends Controller
         return view('home',compact('savings','totalSavings','user'));
     }
 }
+public function memberdashboard(user $user)
+    {
+         {
+           // Get all savings for that member (latest first)
+    $savings = Saving::where('user_id', $user->id)
+        ->latest()
+        ->paginate(20);
+
+    // Total approved & applied savings
+    $totalSavings = Saving::where('user_id', $user->id)
+        ->where('status', 'approved')
+        ->where('is_applied', true)
+        ->sum('amount');
+
+        return view('member.memberdashboard',compact('savings','totalSavings','user'));
+    }
+    }
 
 }
